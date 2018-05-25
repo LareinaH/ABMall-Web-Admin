@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
-import { Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Tooltip } from 'antd';
+import { Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Debounce from 'lodash-decorators/debounce';
 import { Link } from 'dva/router';
-import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
 
 export default class GlobalHeader extends PureComponent {
@@ -67,18 +66,12 @@ export default class GlobalHeader extends PureComponent {
     } = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-        <Menu.Item disabled>
-          <Icon type="user" />个人中心
-        </Menu.Item>
-        <Menu.Item disabled>
-          <Icon type="setting" />设置
-        </Menu.Item>
-        <Menu.Item key="triggerError">
-          <Icon type="close-circle" />触发报错
+        <Menu.Item>
+          <Icon type="key" />修改密码
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="logout">
-          <Icon type="logout" />退出登录
+        <Menu.Item>
+          <Icon type="logout" />安全退出
         </Menu.Item>
       </Menu>
     );
@@ -97,28 +90,6 @@ export default class GlobalHeader extends PureComponent {
           onClick={this.toggle}
         />
         <div className={styles.right}>
-          <HeaderSearch
-            className={`${styles.action} ${styles.search}`}
-            placeholder="站内搜索"
-            dataSource={['搜索提示一', '搜索提示二', '搜索提示三']}
-            onSearch={value => {
-              console.log('input', value); // eslint-disable-line
-            }}
-            onPressEnter={value => {
-              console.log('enter', value); // eslint-disable-line
-            }}
-          />
-          <Tooltip title="使用文档">
-            <a
-              target="_blank"
-              href="http://pro.ant.design/docs/getting-started"
-              rel="noopener noreferrer"
-              className={styles.action}
-            >
-              <Icon type="question-circle-o" />
-            </a>
-          </Tooltip>
-
           {currentUser.name ? (
             <Dropdown overlay={menu}>
               <span className={`${styles.action} ${styles.account}`}>

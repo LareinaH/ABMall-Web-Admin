@@ -1,8 +1,6 @@
 export default {
   namespace: 'indexAd',
-  state: {
-
-  },
+  state: {},
   subscriptions: {},
   effects: {},
   reducers: {},

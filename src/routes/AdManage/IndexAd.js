@@ -1,26 +1,14 @@
 import React from 'react';
-import { connect } from 'dva';
-import { Card, Button, Avatar } from 'antd'
+import IndexAdSingle from './IndexAdSingle';
 
-const { Meta } = Card;
-
-const IndexAd = () => {
-  const title1 = '第一个广告图'
+const IndexAd = ({ loading }) => {
   return (
-    <Card title={title1} style={{ width: 350 }}>
-      <Card
-        style={{ width: 300 }}
-        cover={<img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />}
-        actions={[<Button type="primary" icon="save">保存</Button>]}
-      >
-        <Meta
-          title="Card title">
-        </Meta>
-      </Card>
-    </Card>
-  )
+    <div>
+      <IndexAdSingle title="第一个广告图" loading={loading} />
+      <IndexAdSingle title="第二个广告图" loading={loading} />
+      <IndexAdSingle title="第三个广告图" loading={loading} />
+    </div>
+  );
 };
 
-IndexAd.propTypes = {};
-
-export default connect(({ loading }) => ({ loading }))(IndexAd);
+export default IndexAd;
