@@ -11,7 +11,132 @@ const customMenuData = [
         path: 'indexAd',
         icon: 'picture',
       },
+      {
+        name: '团队体系',
+        path: 'teamSystem',
+        icon: 'team',
+      },
     ],
+  },
+  {
+    name: '活动设置',
+    icon: 'api',
+    path: 'activityManage',
+    children: [
+      {
+        name: '添加活动',
+        path: 'activityAdd',
+        icon: 'plus-circle-o',
+      },
+      {
+        name: '活动报表',
+        path: 'activityStat',
+        icon: 'bar-chart',
+      },
+    ],
+  },
+  {
+    name: '平台通知',
+    icon: 'notification',
+    path: 'platformNotice',
+    children: [
+      {
+        name: '创建通知',
+        path: 'noticeAdd',
+        icon: 'plus-circle-o',
+      },
+      {
+        name: '通知列表',
+        path: 'noticeList',
+        icon: 'bars',
+      },
+    ],
+  },
+  {
+    name: '消息模板',
+    icon: 'message',
+    path: 'messageTemplate',
+  },
+  {
+    name: '邀请码图',
+    icon: 'qrcode',
+    path: 'inviteQRcode',
+  },
+  {
+    name: '商品管理',
+    icon: 'shopping-cart',
+    path: 'commodityManage',
+    children: [
+      {
+        name: '添加商品',
+        path: 'commodityAdd',
+        icon: 'plus-circle-o',
+      },
+      {
+        name: '分类管理',
+        path: 'categoryManage',
+        icon: 'filter',
+      },
+      {
+        name: '商品列表',
+        path: 'commodityList',
+        icon: 'bars',
+      },
+      {
+        name: '下架商品库',
+        path: 'offSold',
+        icon: 'delete',
+      },
+    ],
+  },
+  {
+    name: '报表统计',
+    icon: 'area-chart',
+    path: 'reportStat',
+    children: [
+      {
+        name: '销售统计',
+        path: 'soldStat',
+        icon: 'dot-chart',
+      },
+      {
+        name: '销售明细',
+        path: 'soldDetails',
+        icon: 'bar-chart',
+      },
+      {
+        name: '销售排行',
+        path: 'soldRank',
+        icon: 'trophy',
+      },
+      {
+        name: '用户统计',
+        path: 'userStat',
+        icon: 'user',
+      },
+      {
+        name: '会员排行',
+        path: 'memberStat',
+        icon: 'idcard',
+      },
+    ],
+  },
+  {
+    name: '订单管理',
+    icon: 'barcode',
+    path: 'orderManage',
+    children: [
+      {
+        name: '订单列表',
+        path: 'orderList',
+        icon: 'profile',
+      },
+    ],
+  },
+  {
+    name: '分销设置',
+    icon: 'fork',
+    path: 'distributionSoldManage',
   },
 ];
 

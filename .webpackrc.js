@@ -1,10 +1,10 @@
+import config from './src/utils/config';
+
 const path = require('path');
 
 export default {
   entry: 'src/index.js',
-  extraBabelPlugins: [
-    ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
-  ],
+  extraBabelPlugins: [['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]],
   env: {
     development: {
       extraBabelPlugins: ['dva-hmr'],
@@ -21,4 +21,13 @@ export default {
   disableDynamicImport: true,
   publicPath: '/',
   hash: true,
+  proxy: {
+    [config.APIV1]: {
+      target: 'http://47.97.212.22',
+      changeOrigin: true,
+      pathRewrite: {
+        [`^${config.APIV1}4`]: '',
+      },
+    },
+  },
 };

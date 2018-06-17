@@ -75,6 +75,11 @@ export const getRouterData = app => {
     '/adManage/indexAd': {
       component: dynamicWrapper(app, ['indexAd'], () => import('../routes/AdManage/IndexAd')),
     },
+    '/commodityManage/categoryManage': {
+      component: dynamicWrapper(app, ['categoryManage'], () =>
+        import('../routes/CommodityManage/CategoryManage')
+      ),
+    },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },
