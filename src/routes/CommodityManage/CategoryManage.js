@@ -150,6 +150,7 @@ const CategoryManage = ({
       <Modal
         title="添加分类"
         visible={categoryManage.showAddCategory}
+        onCancel={onAddCancel}
         footer={[
           <Button key="取消" onClick={onAddCancel}>
             取消
@@ -178,6 +179,7 @@ const CategoryManage = ({
       <Modal
         title="编辑分类"
         visible={categoryManage.showUpdateCategory}
+        onCancel={onEditCancel}
         footer={[
           <Button key="取消" onClick={onEditCancel}>
             取消
