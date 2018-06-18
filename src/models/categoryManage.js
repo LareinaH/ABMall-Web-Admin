@@ -57,6 +57,14 @@ export default modelExtend(pageModel, {
         });
 
         yield put({
+          type: 'setData',
+          payload: {
+            key: 'showAddCategory',
+            value: false,
+          },
+        });
+
+        yield put({
           type: 'getCategoryList',
         });
       } else {
@@ -71,13 +79,21 @@ export default modelExtend(pageModel, {
       const { currentEditCategory } = yield select(state => state.categoryManage);
       currentEditCategory.goodsGroupName = newCategoryName;
       const response = yield call(updateCategory, {
-        GoodsGroup: currentEditCategory,
+        ...currentEditCategory,
       });
 
       if (response.code === 200) {
         yield put({
           type: 'showNotice',
           payload: '编辑分类成功',
+        });
+
+        yield put({
+          type: 'setData',
+          payload: {
+            key: 'showUpdateCategory',
+            value: false,
+          },
         });
 
         yield put({
@@ -94,6 +110,8 @@ export default modelExtend(pageModel, {
       const response = yield call(deleteCategory, {
         goodsGroupId: payload,
       });
+
+      console.log(response.code === 200);
 
       if (response.code === 200) {
         yield put({

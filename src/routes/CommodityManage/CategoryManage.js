@@ -28,7 +28,7 @@ const CategoryManage = ({
     },
     {
       title: '所含商品数',
-      dataIndex: 'xxx',
+      render: () => <span>0</span>,
     },
     {
       title: '创建时间',
@@ -39,7 +39,6 @@ const CategoryManage = ({
       render: (text, record) => (
         <div>
           <a
-            href="#"
             onClick={() => {
               dispatch({
                 type: 'categoryManage/setDatas',
@@ -59,7 +58,7 @@ const CategoryManage = ({
             okText="确定"
             cancelText="取消"
           >
-            <a href="#">删除</a>
+            <a>删除</a>
           </Popconfirm>
         </div>
       ),
@@ -72,9 +71,9 @@ const CategoryManage = ({
 
   const tableProps = {
     dataSource: categoryManage.categoryListData,
-    column: columns,
+    columns,
     rowKey: 'id',
-    size: 'small',
+    // size: 'small',
     pagination: {
       size: 'small',
       showTotal,
@@ -151,6 +150,7 @@ const CategoryManage = ({
         title="添加分类"
         visible={categoryManage.showAddCategory}
         onCancel={onAddCancel}
+        destroyOnClose
         footer={[
           <Button key="取消" onClick={onAddCancel}>
             取消
@@ -165,21 +165,27 @@ const CategoryManage = ({
           </Button>,
         ]}
       >
-        <FormItem label="分类名称">
-          {getFieldDecorator('categoryName', {
-            rules: [
-              {
-                required: true,
-                message: '请填写分类名称',
-              },
-            ],
-          })(<Input width="100%" placeholder="请填写分类名称" />)}
-        </FormItem>
+        <Form layout="inline">
+          <FormItem label="分类名称">
+            {getFieldDecorator('categoryName', {
+              rules: [
+                {
+                  required: true,
+                  message: '请填写分类名称',
+                  max: 32,
+                },
+              ],
+              initialValue: '',
+              hasFeedback: true,
+            })(<Input width="100%" placeholder="请填写分类名称" />)}
+          </FormItem>
+        </Form>
       </Modal>
       <Modal
         title="编辑分类"
         visible={categoryManage.showUpdateCategory}
         onCancel={onEditCancel}
+        destroyOnClose
         footer={[
           <Button key="取消" onClick={onEditCancel}>
             取消
@@ -194,29 +200,34 @@ const CategoryManage = ({
           </Button>,
         ]}
       >
-        <FormItem label="原来名称">
-          {getFieldDecorator('oldCategoryName', {
-            rules: [
-              {
-                required: true,
-                message: '请填写分类名称',
-              },
-            ],
-            initialValue: categoryManage.currentEditCategory
-              ? categoryManage.currentEditCategory.goodsGroupName
-              : '',
-          })(<Input disabled width="100%" placeholder="请填写分类名称" />)}
-        </FormItem>
-        <FormItem label="分类名称">
-          {getFieldDecorator('newCategoryName', {
-            rules: [
-              {
-                required: true,
-                message: '请填写分类名称',
-              },
-            ],
-          })(<Input width="100%" placeholder="请填写分类名称" />)}
-        </FormItem>
+        <Form layout="inline">
+          <FormItem label="原来名称">
+            {getFieldDecorator('oldCategoryName', {
+              rules: [
+                {
+                  required: true,
+                  message: '请填写分类名称',
+                  max: 32,
+                },
+              ],
+              initialValue: categoryManage.currentEditCategory
+                ? categoryManage.currentEditCategory.goodsGroupName
+                : '',
+              hasFeedback: true,
+            })(<Input disabled width="100%" placeholder="请填写分类名称" />)}
+          </FormItem>
+          <FormItem label="分类名称">
+            {getFieldDecorator('newCategoryName', {
+              rules: [
+                {
+                  required: true,
+                  message: '请填写分类名称',
+                },
+              ],
+              initialValue: '',
+            })(<Input width="100%" placeholder="请填写分类名称" />)}
+          </FormItem>
+        </Form>
       </Modal>
       <NoticeModal
         title="注意"
