@@ -73,6 +73,7 @@ const CategoryManage = ({
     dataSource: categoryManage.categoryListData,
     columns,
     rowKey: 'id',
+    loading: loading.effects['categoryManage/getCategoryList'],
     // size: 'small',
     pagination: {
       size: 'small',

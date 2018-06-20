@@ -22,12 +22,6 @@ export default {
   publicPath: '/',
   hash: true,
   proxy: {
-    [config.APIV1]: {
-      target: 'http://47.97.212.22',
-      changeOrigin: true,
-      pathRewrite: {
-        [`^${config.APIV1}4`]: '',
-      },
-    },
+    [config.APIV1]: 'http://47.97.212.22',
   },
 };
