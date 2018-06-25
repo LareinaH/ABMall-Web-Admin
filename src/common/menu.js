@@ -133,7 +133,7 @@ const customMenuData = [
       },
       {
         name: '订单统计',
-        path: 'orderList',
+        path: 'orderStat',
         icon: 'area-chart',
       },
     ],
