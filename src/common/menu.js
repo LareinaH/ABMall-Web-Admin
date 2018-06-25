@@ -131,6 +131,11 @@ const customMenuData = [
         path: 'orderList',
         icon: 'profile',
       },
+      {
+        name: '订单统计',
+        path: 'orderList',
+        icon: 'area-chart',
+      },
     ],
   },
   {

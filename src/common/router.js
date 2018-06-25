@@ -85,6 +85,11 @@ export const getRouterData = app => {
         import('../routes/InviteQRcode/InviteQRcode')
       ),
     },
+    '/orderManage/orderList': {
+      component: dynamicWrapper(app, ['orderList'], () =>
+        import('../routes/OrderManage/OrderList')
+      ),
+    },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },
