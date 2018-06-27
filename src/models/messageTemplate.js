@@ -97,7 +97,7 @@ export default modelExtend(pageModel, {
       } else {
         yield put({
           type: 'showNotice',
-          payload: `读取配置值失败:${response.message}`,
+          payload: `更新消息模板配置值失败:${response.message}`,
         });
       }
     },
