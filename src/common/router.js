@@ -90,6 +90,11 @@ export const getRouterData = app => {
         import('../routes/OrderManage/OrderList')
       ),
     },
+    '/messageTemplate': {
+      component: dynamicWrapper(app, ['messageTemplate'], () =>
+        import('../routes/MessageTemplate/MessageTemplate')
+      ),
+    },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },
