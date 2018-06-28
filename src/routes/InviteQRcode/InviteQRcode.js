@@ -18,6 +18,8 @@ const InviteQRcode = ({ dispatch, loading, inviteQRcode }) => {
           adItem={adItem}
           index={index}
           key={index}
+          nameSpace="inviteQRcode"
+          picWidth={250}
         />
       );
     });

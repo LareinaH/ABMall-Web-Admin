@@ -6,7 +6,7 @@ import { Card, Button, Upload } from 'antd';
 import config from '../../utils/config';
 import style from './style.less';
 
-const InviteQRcodeSingle = ({ dispatch, loading, title, adItem, index }) => {
+const InviteQRcodeSingle = ({ dispatch, loading, title, adItem, index, nameSpace, picWidth }) => {
   const { adUrl, id, uploading } = adItem;
   const uploadProps = {
     listType: 'picture',
@@ -24,7 +24,7 @@ const InviteQRcodeSingle = ({ dispatch, loading, title, adItem, index }) => {
       co(function*() {
         adItem.uploading = true;
         dispatch({
-          type: 'inviteQRcode/saveAdUrlLocal',
+          type: `${nameSpace}/saveAdUrlLocal`,
           payload: {
             adItem,
             index,
@@ -40,7 +40,7 @@ const InviteQRcodeSingle = ({ dispatch, loading, title, adItem, index }) => {
         }.aliyuncs.com/${objectKey}`;
         adItem.uploading = false;
         dispatch({
-          type: 'inviteQRcode/saveAdUrlLocal',
+          type: `${nameSpace}/saveAdUrlLocal`,
           payload: {
             adItem,
             index,
@@ -55,7 +55,7 @@ const InviteQRcodeSingle = ({ dispatch, loading, title, adItem, index }) => {
 
   const saveAdUrl = () => {
     dispatch({
-      type: 'inviteQRcode/saveAdUrl',
+      type: `${nameSpace}/saveAdUrl`,
       payload: {
         adUrl,
         id,
@@ -65,7 +65,7 @@ const InviteQRcodeSingle = ({ dispatch, loading, title, adItem, index }) => {
 
   return (
     <Card
-      style={{ width: 250, float: 'left', marginRight: 24 }}
+      style={{ width: picWidth, float: 'left', marginRight: 24 }}
       hoverable
       cover={<img alt="暂未设置图片,请点击下方上传按钮" src={adUrl} />}
       actions={[
@@ -75,9 +75,10 @@ const InviteQRcodeSingle = ({ dispatch, loading, title, adItem, index }) => {
           </Button>
         </Upload>,
         <Button
+          disabled={uploading}
           type="primary"
           icon="save"
-          loading={loading.effects['inviteQRcode/saveAdUrl']}
+          loading={loading.effects[`${nameSpace}/saveAdUrl`]}
           onClick={saveAdUrl}
         >
           保存
