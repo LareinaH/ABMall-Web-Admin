@@ -1,14 +1,42 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
-import IndexAdSingle from './IndexAdSingle';
+import { connect } from 'dva';
+import NoticeModal from '../NoticeModal';
+import InviteQRcodeSingle from '../InviteQRcode/InviteQRcodeSingle';
 
-const IndexAd = ({ loading }) => {
+const IndexAd = ({ dispatch, loading, indexAd }) => {
+  const { picList } = indexAd;
+  const titleList = ['第一个广告图', '第二个广告图', '第三个广告图'];
+
+  const getCardList = () => {
+    return picList.map((adItem, index) => {
+      return (
+        <InviteQRcodeSingle
+          dispatch={dispatch}
+          loading={loading}
+          title={titleList[index]}
+          adItem={adItem}
+          index={index}
+          key={index}
+          nameSpace="indexAd"
+          picWidth={500}
+        />
+      );
+    });
+  };
+
   return (
     <div>
-      <IndexAdSingle title="第一个广告图" loading={loading} />
-      <IndexAdSingle title="第二个广告图" loading={loading} />
-      <IndexAdSingle title="第三个广告图" loading={loading} />
+      {getCardList()}
+      <NoticeModal
+        title="注意"
+        dispatch={dispatch}
+        info={indexAd.noticeInfo}
+        visible={indexAd.noticeVisible}
+        namespace="indexAd"
+      />
     </div>
   );
 };
 
-export default IndexAd;
+export default connect(({ indexAd, loading }) => ({ indexAd, loading }))(IndexAd);
