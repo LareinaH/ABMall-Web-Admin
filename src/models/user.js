@@ -20,7 +20,7 @@ export default {
       const response = yield call(queryCurrent);
       yield put({
         type: 'saveCurrentUser',
-        payload: response,
+        payload: response.data,
       });
     },
   },
@@ -33,13 +33,13 @@ export default {
       };
     },
     saveCurrentUser(state, { payload }) {
+      const { username, id } = payload;
       return {
         ...state,
         currentUser: {
-          name: payload.data.username,
+          name: username,
           avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
-          userid: payload.data.id,
-          notifyCount: 0,
+          userid: id,
         },
       };
     },

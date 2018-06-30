@@ -54,6 +54,12 @@ const pageModel = modelExtend(model, {
         ...tempItem,
       };
     },
+    save(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
   },
 });
 

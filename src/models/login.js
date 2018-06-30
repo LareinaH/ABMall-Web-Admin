@@ -19,7 +19,7 @@ export default {
           type: 'changeLoginStatus',
           payload: {
             type: 'account',
-            currentAuthority: response.data.username,
+            currentAuthority: response.data.currentAuthority,
           },
         });
         reloadAuthorized();
