@@ -1,5 +1,6 @@
 import { stringify } from 'qs';
 import request from '../utils/request';
+import config from '../utils/config';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -61,9 +62,9 @@ export async function queryFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
-    method: 'POST',
-    body: params,
+  const { userName, password } = params
+  return request(`${config.APIV1}/admin/un/login?username=${userName}&password=${password}`, {
+    method: 'GET',
   });
 }
 
