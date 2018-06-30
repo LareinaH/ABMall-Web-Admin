@@ -22,7 +22,7 @@ const codeMessage = {
 };
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
-    return response
+    return response;
   }
   const errortext = codeMessage[response.status] || response.statusText;
   notification.error({
@@ -72,16 +72,17 @@ export default function request(url, options) {
       // }
       return response.json();
     })
-  .then(data => {
-    if (data.code === 200 || data.code === 500) {
-      return data;
-    } else {
-      const error = new Error('未登录');
-      error.name = 401;
-      error.response = data;
-      throw error;
-    }
-  }).catch(e => {
+    .then(data => {
+      if (data.code === 200 || data.code === 500 || data.code === 300) {
+        return data;
+      } else {
+        const error = new Error('未登录');
+        error.name = 401;
+        error.response = data;
+        throw error;
+      }
+    })
+    .catch(e => {
       const { dispatch } = store;
       const status = e.name;
       if (status === 401) {

@@ -62,7 +62,7 @@ export async function queryFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  const { userName, password } = params
+  const { userName, password } = params;
   return request(`${config.APIV1}/admin/un/login?username=${userName}&password=${password}`, {
     method: 'GET',
   });

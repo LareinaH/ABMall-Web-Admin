@@ -70,7 +70,7 @@ export default class GlobalHeader extends PureComponent {
           <Icon type="key" />修改密码
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key='logout'>
+        <Menu.Item key="logout">
           <Icon type="logout" />安全退出
         </Menu.Item>
       </Menu>
