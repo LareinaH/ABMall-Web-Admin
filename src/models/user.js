@@ -38,7 +38,7 @@ export default {
         ...state,
         currentUser: {
           name: username,
-          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
+          avatar: '/avatar.png',
           userid: id,
         },
       };
