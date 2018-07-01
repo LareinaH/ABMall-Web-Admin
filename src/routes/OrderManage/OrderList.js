@@ -171,7 +171,6 @@ const OrderList = ({ dispatch, loading, orderList }) => {
             value={daysRange.toString()}
             onChange={onDaysSelectChange}
           >
-            <Select.Option key="0">今天</Select.Option>
             <Select.Option key="7">最近7天</Select.Option>
             <Select.Option key="30">最近30天</Select.Option>
           </Select>
@@ -235,7 +234,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
                   { key: 'orderStatus', value: undefined },
                   { key: 'returnsStatus', value: undefined },
                   { key: 'daysRange', value: 0 },
-                  { key: 'dateStart', value: moment() },
+                  { key: 'dateStart', value: moment().subtract(7, 'days') },
                   { key: 'dateEnd', value: moment() },
                 ],
               });

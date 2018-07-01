@@ -9,8 +9,8 @@ export default modelExtend(pageModel, {
   namespace: 'orderList',
 
   state: {
-    daysRange: 0,
-    dateStart: moment(),
+    daysRange: 7,
+    dateStart: moment().subtract(7, 'days'),
     dateEnd: moment(),
     orderStatus: undefined,
     orderStatusMapList: [],
