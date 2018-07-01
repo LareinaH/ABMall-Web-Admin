@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Form, Row, Col, Table, Button, Popconfirm, Input, Modal, Card, Divider } from 'antd';
 import NoticeModal from '../NoticeModal';
+import { addAlignForColumns } from '../../utils/utils';
 
 const CategoryManage = ({
   dispatch,
@@ -64,6 +65,8 @@ const CategoryManage = ({
       ),
     },
   ];
+
+  addAlignForColumns(columns, 'center');
 
   const showTotal = total => {
     return `共 ${total} 条数据`;

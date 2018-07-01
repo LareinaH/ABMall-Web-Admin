@@ -27,5 +27,9 @@ export async function deleteGoods(params) {
 }
 
 export async function getGoodsListPage(params) {
-  return request(`${config.APIV1}/admin/goods/queryList?${stringify(params)}`);
+  return request(`${config.APIV1}/admin/goods/queryPageList?${stringify(params)}`);
+}
+
+export async function getSpecUnitList() {
+  return request(`${config.APIV1}/admin/goods/getSpecUnitList`);
 }

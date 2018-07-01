@@ -15,6 +15,7 @@ const CommodityAdd = ({ dispatch, commodityAdd }) => {
     virtualSalesAmount,
     description,
     goodsSpecificationList,
+    breif,
   } = goodsVo;
 
   const formProps = {
@@ -166,6 +167,25 @@ const CommodityAdd = ({ dispatch, commodityAdd }) => {
       </Row>
       <Row>
         <Col {...formProps}>
+          {getFormLabel('商品简介')}
+          <Input.TextArea
+            placeholder="请输入商品简介"
+            style={{ width: 400 }}
+            value={breif}
+            onChange={e => {
+              dispatch({
+                type: 'commodityAdd/setGoodsVo',
+                payload: {
+                  key: 'breif',
+                  value: e.target.value,
+                },
+              });
+            }}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col {...formProps}>
           {getFormLabel('商品分类')}
           <Select
             showSearch
@@ -187,7 +207,7 @@ const CommodityAdd = ({ dispatch, commodityAdd }) => {
             }
           >
             {categoryList.map(item => (
-              <Select.Option value={item.id}>{item.goodsGroupName}</Select.Option>
+              <Select.Option key={item.id}>{item.goodsGroupName}</Select.Option>
             ))}
           </Select>
         </Col>
@@ -229,7 +249,21 @@ const CommodityAdd = ({ dispatch, commodityAdd }) => {
       </Row>
       <Row>
         <Col span={24} style={{ textAlign: 'center' }}>
-          <Button type="primary" icon="save">
+          <Button
+            type="primary"
+            icon="save"
+            onClick={() => {
+              if (goodsVo.id && goodsVo.id > 0) {
+                dispatch({
+                  type: 'commodityAdd/updateCommodity',
+                });
+              } else {
+                dispatch({
+                  type: 'commodityAdd/addCommodity',
+                });
+              }
+            }}
+          >
             保存
           </Button>
         </Col>

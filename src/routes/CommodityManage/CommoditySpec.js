@@ -66,7 +66,7 @@ const CommoditySpec = ({
                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                       }
                     >
-                      {specUnitList.map(item => <Select.Option value={item}>{item}</Select.Option>)}
+                      {specUnitList.map(item => <Select.Option key={item}>{item}</Select.Option>)}
                     </Select>
                   </Col>
                 </Row>

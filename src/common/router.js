@@ -88,6 +88,11 @@ export const getRouterData = app => {
         import('../routes/CommodityManage/CommodityAdd')
       ),
     },
+    '/commodityManage/commodityList': {
+      component: dynamicWrapper(app, ['commodityList'], () =>
+        import('../routes/CommodityManage/CommodityList')
+      ),
+    },
     '/inviteQRcode': {
       component: dynamicWrapper(app, ['inviteQRcode'], () =>
         import('../routes/InviteQRcode/InviteQRcode')

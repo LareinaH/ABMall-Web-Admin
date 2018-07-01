@@ -1,7 +1,9 @@
 import modelExtend from 'dva-model-extend';
 import { parse } from 'query-string';
+import { routerRedux } from 'dva/router';
 import commonModel from './common';
-import { getGoodsDetail, addGoods, updateGoods } from '../services/commodityAdd';
+import { getGoodsDetail, addGoods, updateGoods, getSpecUnitList } from '../services/commodityAdd';
+import { getCategoryList } from '../services/commodityManage';
 
 const { pageModel } = commonModel;
 
@@ -31,6 +33,7 @@ export default modelExtend(pageModel, {
         },
       ],
       goodsSpecificationList: [],
+      breif: undefined,
     },
   },
 
@@ -38,6 +41,39 @@ export default modelExtend(pageModel, {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, search }) => {
         if (pathname === '/commodityManage/commodityAdd') {
+          // 进入页面需要清空数据
+          dispatch({
+            type: 'setDatas',
+            payload: [
+              { key: 'categoryList', value: [] },
+              { key: 'specUnitList', value: [] },
+              { key: 'noticeVisible', value: false },
+              { key: 'noticeInfo', value: '' },
+              {
+                key: 'goodsVo',
+                value: {
+                  goodsName: undefined,
+                  groupId: undefined,
+                  images: [
+                    {
+                      adUrl: '',
+                      uploading: false,
+                    },
+                  ],
+                  virtualSalesAmount: 0,
+                  description: [
+                    {
+                      adUrl: '',
+                      uploading: false,
+                    },
+                  ],
+                  goodsSpecificationList: [],
+                  breif: undefined,
+                },
+              },
+            ],
+          });
+
           // 取商品ID
           console.log(search);
           const { goodsId } = parse(search);
@@ -61,27 +97,37 @@ export default modelExtend(pageModel, {
   },
 
   effects: {
-    *getCommodityDetail({ payload }, { call, put }) {
+    *getCommodityDetail({ payload }, { call, put, select }) {
       const response = yield call(getGoodsDetail, {
         goodsId: payload,
       });
 
       if (response.code === 200) {
-        const { images, description } = response.data;
+        const { goodsVo } = yield select(state => state.commodityAdd);
+        const { images: oldImages, description: oldDescription } = goodsVo;
+        let { images, description } = response.data;
+
+        images = JSON.parse(images).map(x => {
+          return {
+            uploading: false,
+            adUrl: x,
+          };
+        });
+
+        images.push(...oldImages);
+
+        description = JSON.parse(description).map(x => {
+          return {
+            uploading: false,
+            adUrl: x,
+          };
+        });
+
+        description.push(...oldDescription);
 
         Object.assign(response.data, {
-          images: images.split(',').map(x => {
-            return {
-              uploading: false,
-              adUrl: x,
-            };
-          }),
-          description: description.split(',').map(x => {
-            return {
-              uploading: false,
-              adUrl: x,
-            };
-          }),
+          images,
+          description,
         });
 
         yield put({
@@ -102,9 +148,11 @@ export default modelExtend(pageModel, {
       const { goodsVo } = yield select(state => state.commodityAdd);
       const { images, description } = goodsVo;
 
-      Object.assign(goodsVo, {
-        images: images.join(','),
-        description: description.join(','),
+      const copiedGoodsVo = JSON.parse(JSON.stringify(goodsVo));
+
+      Object.assign(copiedGoodsVo, {
+        images: images.map(x => x.adUrl).filter(x => x && x.length > 0),
+        description: description.map(x => x.adUrl).filter(x => x && x.length > 0),
       });
 
       const response = yield call(addGoods, goodsVo);
@@ -116,6 +164,7 @@ export default modelExtend(pageModel, {
         });
 
         // 跳转到商品列表页
+        yield put(routerRedux.push('/commodityManage/commodityList'));
       } else {
         yield put({
           type: 'showNotice',
@@ -127,12 +176,14 @@ export default modelExtend(pageModel, {
       const { goodsVo } = yield select(state => state.commodityAdd);
       const { images, description } = goodsVo;
 
-      Object.assign(goodsVo, {
-        images: images.map(x => x.adUrl).join(','),
-        description: description.map(x => x.adUrl).join(','),
+      const copiedGoodsVo = JSON.parse(JSON.stringify(goodsVo));
+
+      Object.assign(copiedGoodsVo, {
+        images: images.map(x => x.adUrl).filter(x => x && x.length > 0),
+        description: description.map(x => x.adUrl).filter(x => x && x.length > 0),
       });
 
-      const response = yield call(updateGoods, goodsVo);
+      const response = yield call(updateGoods, copiedGoodsVo);
 
       if (response.code === 200) {
         yield put({
@@ -143,6 +194,36 @@ export default modelExtend(pageModel, {
         yield put({
           type: 'showNotice',
           payload: `更新商品信息失败:${response.message}`,
+        });
+      }
+    },
+    *getCategoryList({ payload }, { call, put }) {
+      const response = yield call(getCategoryList, {
+        goodsId: payload,
+      });
+
+      if (response.code === 200) {
+        yield put({
+          type: 'setData',
+          payload: {
+            key: 'categoryList',
+            value: response.data,
+          },
+        });
+      }
+    },
+    *getSpecUnitList({ payload }, { call, put }) {
+      const response = yield call(getSpecUnitList, {
+        goodsId: payload,
+      });
+
+      if (response.code === 200) {
+        yield put({
+          type: 'setData',
+          payload: {
+            key: 'specUnitList',
+            value: response.data,
+          },
         });
       }
     },
