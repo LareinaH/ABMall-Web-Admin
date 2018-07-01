@@ -14,7 +14,24 @@ export default modelExtend(pageModel, {
     specUnitList: [],
 
     // goodsVo
-    goodsVo: {},
+    goodsVo: {
+      goodsName: undefined,
+      groupId: undefined,
+      images: [
+        {
+          adUrl: '',
+          uploading: false,
+        },
+      ],
+      virtualSalesAmount: 0,
+      description: [
+        {
+          adUrl: '',
+          uploading: false,
+        },
+      ],
+      goodsSpecificationList: [],
+    },
   },
 
   subscriptions: {
@@ -53,8 +70,18 @@ export default modelExtend(pageModel, {
         const { images, description } = response.data;
 
         Object.assign(response.data, {
-          images: images.split(','),
-          description: description.split(','),
+          images: images.split(',').map(x => {
+            return {
+              uploading: false,
+              adUrl: x,
+            };
+          }),
+          description: description.split(',').map(x => {
+            return {
+              uploading: false,
+              adUrl: x,
+            };
+          }),
         });
 
         yield put({
@@ -101,8 +128,8 @@ export default modelExtend(pageModel, {
       const { images, description } = goodsVo;
 
       Object.assign(goodsVo, {
-        images: images.join(','),
-        description: description.join(','),
+        images: images.map(x => x.adUrl).join(','),
+        description: description.map(x => x.adUrl).join(','),
       });
 
       const response = yield call(updateGoods, goodsVo);
