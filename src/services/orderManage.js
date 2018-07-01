@@ -15,13 +15,16 @@ export async function getOrderList(params) {
     `${config.APIV1}/admin/orders/queryPageList?${stringify({
       pageNum: params.current,
       pageSize: params.pageSize,
-      conditions: JSON.stringify({
+    })}`,
+    {
+      method: 'POST',
+      body: {
         timeBegin: params.dateStart,
         timeEnd: params.dateEnd,
         orderStatus: params.orderStatus,
         returnStatus: params.returnsStatus,
         orderNo: params.orderNo,
-      }),
-    })}`
+      },
+    }
   );
 }
