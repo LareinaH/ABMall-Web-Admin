@@ -2,13 +2,13 @@
 import React from 'react';
 import { stringify } from 'qs';
 import { connect } from 'dva';
-import { Divider, Popconfirm, Table, Row, Col, Card } from 'antd';
+import { Divider, Popconfirm, Table, Row, Col, Card, Tag } from 'antd';
 import { pagination } from '../../common/tablePageProps';
 import { addAlignForColumns } from '../../utils/utils';
 import NoticeModal from '../NoticeModal';
 
 const CommodityList = ({ dispatch, loading, commodityList }) => {
-  const { categoryList, goodsDetailList } = commodityList;
+  const { categoryList, goodsDetailList, expandedRows } = commodityList;
   const { current, pageSize, total } = commodityList;
 
   const onDeleteGoods = id => {
@@ -82,6 +82,7 @@ const CommodityList = ({ dispatch, loading, commodityList }) => {
   addAlignForColumns(columns, 'center');
 
   const tableProps = {
+    size: 'small',
     dataSource: goodsDetailList,
     columns,
     rowKey: 'id',
@@ -91,11 +92,78 @@ const CommodityList = ({ dispatch, loading, commodityList }) => {
       pageSize,
       total,
     }),
+    onExpand: (expanded, record) => {
+      if (expanded) {
+        expandedRows.push(record.id);
+        dispatch({
+          type: 'commodityList/setDatas',
+          payload: [{ key: 'expandedRows', value: expandedRows }],
+        });
+      } else {
+        dispatch({
+          type: 'commodityList/setDatas',
+          payload: [{ key: 'expandedRows', value: expandedRows.filter(x => x !== record.id) }],
+        });
+      }
+    },
+    expandedRowKeys: expandedRows,
     onChange: pn => {
       dispatch({
         type: 'commodityList/setDatas',
         payload: [{ key: 'current', value: pn.current }, { key: 'pageSize', value: pn.pageSize }],
       });
+
+      dispatch({
+        type: 'commodityList/getGoodsListPage',
+      });
+    },
+    expandedRowRender: record => {
+      const { goodsSpecificationList } = record;
+      const expandColumns = [
+        {
+          title: '商品规格',
+          dataIndex: 'goodsSpecificationName',
+        },
+        {
+          title: '商品编号',
+          dataIndex: 'goodsSpecificationNo',
+        },
+        {
+          title: '原价显示值',
+          dataIndex: 'price',
+        },
+        {
+          title: '销售价',
+          dataIndex: 'preferentialPrice',
+        },
+        {
+          title: '库存',
+          dataIndex: 'stock',
+        },
+        {
+          title: '上架',
+          dataIndex: 'isOnSell',
+          render: text => {
+            if (text) {
+              return <Tag color="#87d068">是</Tag>;
+            } else {
+              return <Tag color="#f50">否</Tag>;
+            }
+          },
+        },
+      ];
+
+      addAlignForColumns(expandColumns, 'center');
+
+      const expandTableProps = {
+        size: 'small',
+        dataSource: goodsSpecificationList,
+        columns: expandColumns,
+        rowKey: 'id',
+        pagination: false,
+      };
+
+      return <Table {...expandTableProps} />;
     },
   };
 

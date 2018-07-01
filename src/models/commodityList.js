@@ -13,6 +13,7 @@ export default modelExtend(pageModel, {
     categoryList: [],
 
     goodsDetailList: [],
+    expandedRows: [],
   },
 
   subscriptions: {
@@ -39,9 +40,14 @@ export default modelExtend(pageModel, {
         pageSize,
       });
       if (response.code === 200) {
+        console.log(response.data.list.map(x => x.id));
         yield put({
           type: 'setDatas',
           payload: [
+            {
+              key: 'expandedRows',
+              value: response.data.list.map(x => x.id),
+            },
             {
               key: 'goodsDetailList',
               value: response.data.list,

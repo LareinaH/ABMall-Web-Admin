@@ -6,7 +6,7 @@ import PicUpload from './PicUpload';
 import NoticeModal from '../NoticeModal';
 import config from '../../utils/config';
 
-const CommodityAdd = ({ dispatch, commodityAdd }) => {
+const CommodityAdd = ({ dispatch, loading, commodityAdd }) => {
   const { goodsVo, categoryList, specUnitList } = commodityAdd;
   const {
     goodsName,
@@ -263,6 +263,11 @@ const CommodityAdd = ({ dispatch, commodityAdd }) => {
                 });
               }
             }}
+            loading={
+              goodsVo.id && goodsVo.id > 0
+                ? loading.effects['commodityAdd/updateCommodity']
+                : loading.effects['commodityAdd/addCommodity']
+            }
           >
             保存
           </Button>

@@ -70,11 +70,17 @@ export default modelExtend(pageModel, {
       });
       if (response.code === 200) {
         yield put({
-          type: 'setData',
-          payload: {
-            key: 'orderDetailListData',
-            value: response.data,
-          },
+          type: 'setDatas',
+          payload: [
+            {
+              key: 'orderDetailListData',
+              value: response.data.list,
+            },
+            {
+              key: 'total',
+              value: response.data.total,
+            },
+          ],
         });
       }
     },

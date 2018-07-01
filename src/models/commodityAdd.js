@@ -155,7 +155,7 @@ export default modelExtend(pageModel, {
         description: description.map(x => x.adUrl).filter(x => x && x.length > 0),
       });
 
-      const response = yield call(addGoods, goodsVo);
+      const response = yield call(addGoods, copiedGoodsVo);
 
       if (response.code === 200) {
         yield put({
