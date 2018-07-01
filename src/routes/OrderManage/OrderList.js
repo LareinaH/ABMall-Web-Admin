@@ -233,7 +233,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
                   { key: 'searchOrderId', value: undefined },
                   { key: 'orderStatus', value: undefined },
                   { key: 'returnsStatus', value: undefined },
-                  { key: 'daysRange', value: 0 },
+                  { key: 'daysRange', value: 7 },
                   { key: 'dateStart', value: moment().subtract(7, 'days') },
                   { key: 'dateEnd', value: moment() },
                 ],
