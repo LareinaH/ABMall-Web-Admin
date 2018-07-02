@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Card, Row, Col, Input, Button, Spin, Form } from 'antd';
+import { getObjectKeyValueOr } from '../../utils/utils';
 import NoticeModal from '../NoticeModal';
 
 const FormItem = Form.Item;
@@ -19,23 +20,18 @@ const MessageTemplate = ({
     EXECUTIVE_AWARD,
   } = messageTemplate.keyPairs;
   const saveKeyPairs = () => {
-    validateFields(
-      [
-        'PROMOTION_AWARD_1',
-        'PROMOTION_AWARD_2',
-        'SHARE_AWARD_1',
-        'SHARE_AWARD_2',
-        'EXECUTIVE_AWARD',
-      ],
-      (err, values) => {
-        if (!err) {
-          dispatch({
-            type: 'messageTemplate/saveKeyPairs',
-            payload: values,
-          });
-        }
+    validateFields((err, values) => {
+      if (!err) {
+        dispatch({
+          type: 'messageTemplate/saveKeyPairs',
+          payload: values,
+        });
       }
-    );
+    });
+  };
+
+  const cardStyle = {
+    marginBottom: 8,
   };
 
   return (
@@ -47,10 +43,10 @@ const MessageTemplate = ({
           </Col>
         </Row>
       ) : (
-        <div>
-          <Row>
-            <Col span={24}>
-              <Form layout="inline">
+        <Card style={cardStyle} title="消息模板设置">
+          <Form layout="inline">
+            <Row>
+              <Col span={24}>
                 <FormItem label="晋级奖励:">
                   {getFieldDecorator('PROMOTION_AWARD_1', {
                     rules: [
@@ -60,7 +56,7 @@ const MessageTemplate = ({
                         max: 100,
                       },
                     ],
-                    initialValue: PROMOTION_AWARD_1.value,
+                    initialValue: getObjectKeyValueOr(PROMOTION_AWARD_1, 'value', ''),
                   })(<Input style={{ width: 400 }} />)}
                 </FormItem>
                 <FormItem label="v*级">
@@ -72,16 +68,13 @@ const MessageTemplate = ({
                         max: 100,
                       },
                     ],
-                    initialValue: PROMOTION_AWARD_2.value,
+                    initialValue: getObjectKeyValueOr(PROMOTION_AWARD_2, 'value', ''),
                   })(<Input style={{ width: 400 }} />)}
                 </FormItem>
-                ****元
-              </Form>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <Form layout="inline">
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
                 <FormItem label="分享奖励:">
                   {getFieldDecorator('SHARE_AWARD_1', {
                     rules: [
@@ -91,7 +84,7 @@ const MessageTemplate = ({
                         max: 100,
                       },
                     ],
-                    initialValue: SHARE_AWARD_1.value,
+                    initialValue: getObjectKeyValueOr(SHARE_AWARD_1, 'value', ''),
                   })(<Input style={{ width: 400 }} />)}
                 </FormItem>
                 <FormItem label="***元">
@@ -103,16 +96,13 @@ const MessageTemplate = ({
                         max: 100,
                       },
                     ],
-                    initialValue: SHARE_AWARD_2.value,
+                    initialValue: getObjectKeyValueOr(SHARE_AWARD_2, 'value', ''),
                   })(<Input style={{ width: 400 }} />)}
                 </FormItem>
-                ****元
-              </Form>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <Form layout="inline">
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
                 <FormItem label="高管薪酬:">
                   {getFieldDecorator('EXECUTIVE_AWARD', {
                     rules: [
@@ -122,26 +112,25 @@ const MessageTemplate = ({
                         max: 100,
                       },
                     ],
-                    initialValue: EXECUTIVE_AWARD.value,
+                    initialValue: getObjectKeyValueOr(EXECUTIVE_AWARD, 'value', ''),
                   })(<Input style={{ width: 400 }} />)}
                 </FormItem>
-                ****元
-              </Form>
-            </Col>
-          </Row>
-          <Row type="flex" justify="center">
-            <Col span={2}>
-              <Button
-                loading={loading.effects['messageTemplate/saveKeyPairs']}
-                type="primary"
-                icon="save"
-                onClick={saveKeyPairs}
-              >
-                保存
-              </Button>
-            </Col>
-          </Row>
-        </div>
+              </Col>
+            </Row>
+            <Row type="flex" justify="center">
+              <Col span={2}>
+                <Button
+                  loading={loading.effects['messageTemplate/saveKeyPairs']}
+                  type="primary"
+                  icon="save"
+                  onClick={saveKeyPairs}
+                >
+                  保存
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       )}
       <NoticeModal
         title="注意"

@@ -166,3 +166,7 @@ export function addAlignForColumns(columns, align) {
     item.align = align;
   });
 }
+
+export function getObjectKeyValueOr(obj, key, defaultValue) {
+  return obj ? obj[key] : defaultValue;
+}

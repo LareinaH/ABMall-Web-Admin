@@ -1,11 +1,11 @@
 import modelExtend from 'dva-model-extend';
 import commonModel from './common';
-import { getKeyValues, saveKeyPairs } from '../services/messageTemplate';
+import { getKeyValues, saveKeyPairs } from '../services/distributionSoldManage';
 
 const { pageModel } = commonModel;
 
 export default modelExtend(pageModel, {
-  namespace: 'messageTemplate',
+  namespace: 'distributionSoldManage',
 
   state: {
     keyPairs: {},
@@ -14,7 +14,7 @@ export default modelExtend(pageModel, {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
-        if (pathname === '/messageTemplate') {
+        if (pathname === '/distributionSoldManage') {
           dispatch({
             type: 'getKeyValues',
           });
@@ -42,7 +42,9 @@ export default modelExtend(pageModel, {
       }
     },
     *saveKeyPairs({ payload }, { call, put, select }) {
-      const { keyPairs } = yield select(state => state.messageTemplate);
+      console.log('saveKeyPairs payload', payload);
+
+      const { keyPairs } = yield select(state => state.distributionSoldManage);
 
       Object.keys(payload).forEach(key => {
         keyPairs[key].value = payload[key];
@@ -52,6 +54,8 @@ export default modelExtend(pageModel, {
       Object.keys(keyPairs).forEach(key => {
         dataList.push(keyPairs[key]);
       });
+
+      console.log('saveKeyPairs dataList', dataList);
 
       const response = yield call(saveKeyPairs, {
         namespace: 'xxx',

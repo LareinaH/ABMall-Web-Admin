@@ -108,6 +108,11 @@ export const getRouterData = app => {
         import('../routes/MessageTemplate/MessageTemplate')
       ),
     },
+    '/distributionSoldManage': {
+      component: dynamicWrapper(app, ['distributionSoldManage'], () =>
+        import('../routes/DistributionSoldManage/DistributionSoldManage')
+      ),
+    },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },
