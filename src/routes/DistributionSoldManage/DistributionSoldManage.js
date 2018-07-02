@@ -61,7 +61,7 @@ const DistributionSoldManage = ({
       {loading.effects['distributionSoldManage/getKeyValues'] ? (
         <Row>
           <Col span={24} style={{ textAlign: 'center' }}>
-            <Spin tip="正在读取消息模板配置..." />
+            <Spin tip="正在读取分销设置配置..." />
           </Col>
         </Row>
       ) : (
