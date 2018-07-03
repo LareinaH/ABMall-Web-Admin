@@ -113,6 +113,16 @@ export const getRouterData = app => {
         import('../routes/DistributionSoldManage/DistributionSoldManage')
       ),
     },
+    '/platformNotice/noticeAdd': {
+      component: dynamicWrapper(app, ['noticeAdd'], () =>
+        import('../routes/PlatformNotice/NoticeAdd')
+      ),
+    },
+    '/platformNotice/noticeList': {
+      component: dynamicWrapper(app, ['noticeList'], () =>
+        import('../routes/PlatformNotice/NoticeList')
+      ),
+    },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },
