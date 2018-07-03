@@ -53,7 +53,7 @@ const NoticeList = ({ dispatch, loading, noticeList }) => {
       },
     },
     {
-      title: '创建时间',
+      title: '发布时间',
       dataIndex: 'gmtPublish',
     },
     {

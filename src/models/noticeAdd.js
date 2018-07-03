@@ -31,6 +31,8 @@ export default modelExtend(pageModel, {
           dispatch({
             type: 'setDatas',
             payload: [
+              { key: 'noticeVisible', value: false },
+              { key: 'noticeInfo', value: '' },
               { key: 'title', value: undefined },
               {
                 key: 'adsUrl',
