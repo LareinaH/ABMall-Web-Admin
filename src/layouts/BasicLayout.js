@@ -116,8 +116,6 @@ class BasicLayout extends React.PureComponent {
     const urlParams = new URL(window.location.href);
 
     const redirect = urlParams.searchParams.get('redirect');
-    console.log('urlParams', urlParams);
-    console.log('redirect', redirect);
     // Remove the parameters in the url
     if (redirect) {
       urlParams.searchParams.delete('redirect');
@@ -129,7 +127,6 @@ class BasicLayout extends React.PureComponent {
         item => check(routerData[item].authority, item) && item !== '/'
       );
 
-      console.log('authorizedPath', authorizedPath);
       return authorizedPath;
     }
     return redirect;

@@ -75,7 +75,6 @@ export default modelExtend(pageModel, {
           });
 
           // 取商品ID
-          console.log(search);
           const { goodsId } = parse(search);
           if (goodsId) {
             dispatch({

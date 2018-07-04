@@ -42,8 +42,6 @@ export default modelExtend(pageModel, {
       }
     },
     *saveKeyPairs({ payload }, { call, put, select }) {
-      console.log('saveKeyPairs payload', payload);
-
       const { keyPairs } = yield select(state => state.distributionSoldManage);
 
       Object.keys(payload).forEach(key => {
@@ -54,8 +52,6 @@ export default modelExtend(pageModel, {
       Object.keys(keyPairs).forEach(key => {
         dataList.push(keyPairs[key]);
       });
-
-      console.log('saveKeyPairs dataList', dataList);
 
       const response = yield call(saveKeyPairs, {
         namespace: 'xxx',

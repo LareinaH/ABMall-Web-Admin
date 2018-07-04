@@ -111,8 +111,6 @@ export default modelExtend(pageModel, {
         goodsGroupId: payload,
       });
 
-      console.log(response.code === 200);
-
       if (response.code === 200) {
         yield put({
           type: 'showNotice',

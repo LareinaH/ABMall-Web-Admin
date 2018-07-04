@@ -116,7 +116,6 @@ const NoticeAdd = ({ dispatch, loading, noticeAdd }) => {
               allowClear={false}
               defaultValue={gmtPublish}
               onOk={value => {
-                console.log(value);
                 dispatch({
                   type: 'noticeAdd/setData',
                   payload: {

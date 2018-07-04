@@ -28,7 +28,6 @@ export default {
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
-        console.log(urlParams, params);
         let { redirect } = params;
         if (redirect) {
           const redirectUrlParams = new URL(redirect);

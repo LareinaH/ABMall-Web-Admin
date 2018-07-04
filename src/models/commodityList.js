@@ -40,7 +40,6 @@ export default modelExtend(pageModel, {
         pageSize,
       });
       if (response.code === 200) {
-        console.log(response.data.list.map(x => x.id));
         yield put({
           type: 'setDatas',
           payload: [
