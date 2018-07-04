@@ -6,7 +6,6 @@ import { connect } from 'dva';
 import { Route, Redirect, Switch, routerRedux } from 'dva/router';
 import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
-import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
 import GlobalHeader from '../components/GlobalHeader';
 import SiderMenu from '../components/SiderMenu';
@@ -111,28 +110,14 @@ class BasicLayout extends React.PureComponent {
   componentWillUnmount() {
     unenquireScreen(this.enquireHandler);
   }
-  getPageTitle() {
-    const { routerData, location } = this.props;
-    const { pathname } = location;
-    let title = 'Ant Design Pro';
-    let currRouterData = null;
-    // match params path
-    Object.keys(routerData).forEach(key => {
-      if (pathToRegexp(key).test(pathname)) {
-        currRouterData = routerData[key];
-      }
-    });
-    if (currRouterData && currRouterData.name) {
-      title = `${currRouterData.name} - Ant Design Pro`;
-    }
-    return title;
-  }
   getBashRedirect = () => {
     // According to the url parameter to redirect
     // 这里是重定向的,重定向到 url 的 redirect 参数所示地址
     const urlParams = new URL(window.location.href);
 
     const redirect = urlParams.searchParams.get('redirect');
+    console.log('urlParams', urlParams);
+    console.log('redirect', redirect);
     // Remove the parameters in the url
     if (redirect) {
       urlParams.searchParams.delete('redirect');
@@ -143,6 +128,8 @@ class BasicLayout extends React.PureComponent {
       const authorizedPath = Object.keys(routerData).find(
         item => check(routerData[item].authority, item) && item !== '/'
       );
+
+      console.log('authorizedPath', authorizedPath);
       return authorizedPath;
     }
     return redirect;
@@ -243,7 +230,7 @@ class BasicLayout extends React.PureComponent {
     );
 
     return (
-      <DocumentTitle title={this.getPageTitle()}>
+      <DocumentTitle title="云鼎绿色">
         <ContainerQuery query={query}>
           {params => <div className={classNames(params)}>{layout}</div>}
         </ContainerQuery>

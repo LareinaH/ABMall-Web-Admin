@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { parse, stringify } from 'qs';
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -158,6 +159,18 @@ const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-
 
 export function isUrl(path) {
   return reg.test(path);
+}
+
+export function getPageQuery() {
+  return parse(window.location.href.split('?')[1]);
+}
+
+export function getQueryPath(path = '', query = {}) {
+  const search = stringify(query);
+  if (search.length) {
+    return `${path}?${search}`;
+  }
+  return path;
 }
 
 export function addAlignForColumns(columns, align) {
