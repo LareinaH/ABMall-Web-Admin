@@ -123,6 +123,16 @@ export const getRouterData = app => {
         import('../routes/PlatformNotice/NoticeList')
       ),
     },
+    '/activityManage/activityAdd': {
+      component: dynamicWrapper(app, ['activityAdd'], () =>
+        import('../routes/ActivityManage/ActivityAdd')
+      ),
+    },
+    '/activityManage/activityList': {
+      component: dynamicWrapper(app, ['activityList'], () =>
+        import('../routes/ActivityManage/ActivityList')
+      ),
+    },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },

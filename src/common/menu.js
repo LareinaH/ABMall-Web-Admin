@@ -30,7 +30,7 @@ const customMenuData = [
       },
       {
         name: '活动报表',
-        path: 'activityStat',
+        path: 'activityList',
         icon: 'bar-chart',
       },
     ],

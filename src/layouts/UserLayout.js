@@ -3,15 +3,7 @@ import { Link, Redirect, Switch, Route } from 'dva/router';
 import DocumentTitle from 'react-document-title';
 import styles from './UserLayout.less';
 import logo from '../assets/logo.png';
-import { getRoutes, getPageQuery, getQueryPath } from '../utils/utils';
-
-function getLoginPathWithRedirectPath() {
-  const params = getPageQuery();
-  const { redirect } = params;
-  return getQueryPath('/user/login', {
-    redirect,
-  });
-}
+import { getRoutes } from '../utils/utils';
 
 class UserLayout extends React.PureComponent {
   render() {
@@ -37,7 +29,7 @@ class UserLayout extends React.PureComponent {
                   exact={item.exact}
                 />
               ))}
-              <Redirect from="/user" to={getLoginPathWithRedirectPath()} />
+              <Redirect exact from="/user" to="/user/login" />
             </Switch>
           </div>
         </div>

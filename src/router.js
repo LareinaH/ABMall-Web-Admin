@@ -6,7 +6,6 @@ import dynamic from 'dva/dynamic';
 import { getRouterData } from './common/router';
 import Authorized from './utils/Authorized';
 import styles from './index.less';
-import { getQueryPath } from './utils/utils';
 
 const { ConnectedRouter } = routerRedux;
 const { AuthorizedRoute } = Authorized;
@@ -27,9 +26,7 @@ function RouterConfig({ history, app }) {
             path="/"
             render={props => <BasicLayout {...props} />}
             authority={['admin', 'user']}
-            redirectPath={getQueryPath('/user/login', {
-              redirect: window.location.href,
-            })}
+            redirectPath="/user/login"
           />
         </Switch>
       </ConnectedRouter>
