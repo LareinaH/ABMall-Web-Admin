@@ -192,18 +192,6 @@ const DistributionSoldManage = ({
             <Form layout="inline">
               <Row>
                 <Col span={24}>
-                  <FormItem label="V1分享奖励">
-                    {getFieldDecorator('SHARE_AWARD_V1', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '请填写V1分享奖励',
-                          max: 100,
-                        },
-                      ],
-                      initialValue: getObjectKeyValueOr(SHARE_AWARD_V1, 'value', ''),
-                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
-                  </FormItem>
                   <FormItem label="用户分享奖励">
                     {getFieldDecorator('SHARE_AWARD_WHITE', {
                       rules: [
@@ -216,22 +204,22 @@ const DistributionSoldManage = ({
                       initialValue: getObjectKeyValueOr(SHARE_AWARD_WHITE, 'value', ''),
                     })(<Input addonAfter="%" style={{ width: 400 }} />)}
                   </FormItem>
+                  <FormItem label="V1分享奖励">
+                    {getFieldDecorator('SHARE_AWARD_V1', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '请填写V1分享奖励',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(SHARE_AWARD_V1, 'value', ''),
+                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
+                  </FormItem>
                 </Col>
               </Row>
               <Row>
                 <Col span={24}>
-                  <FormItem label="V2分享奖励">
-                    {getFieldDecorator('SHARE_AWARD_V2', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '请填写V2分享奖励',
-                          max: 100,
-                        },
-                      ],
-                      initialValue: getObjectKeyValueOr(SHARE_AWARD_V2, 'value', ''),
-                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
-                  </FormItem>
                   <FormItem label="代理人分享奖励">
                     {getFieldDecorator('SHARE_AWARD_AGENT', {
                       rules: [
@@ -242,6 +230,18 @@ const DistributionSoldManage = ({
                         },
                       ],
                       initialValue: getObjectKeyValueOr(SHARE_AWARD_AGENT, 'value', ''),
+                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
+                  </FormItem>
+                  <FormItem label="V2分享奖励">
+                    {getFieldDecorator('SHARE_AWARD_V2', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '请填写V2分享奖励',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(SHARE_AWARD_V2, 'value', ''),
                     })(<Input addonAfter="%" style={{ width: 400 }} />)}
                   </FormItem>
                 </Col>
