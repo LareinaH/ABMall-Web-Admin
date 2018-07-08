@@ -8,7 +8,7 @@ const pagination = {
   showSizeChanger: true,
   showQuickJumper: true,
   defaultPageSize: 10,
-  hideOnSinglePage: true,
+  hideOnSinglePage: false,
   pageSizeOptions: ['10', '20', '50', '100'],
 };
 
