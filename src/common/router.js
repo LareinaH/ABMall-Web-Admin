@@ -130,7 +130,7 @@ export const getRouterData = app => {
     },
     '/activityManage/activityAdd': {
       component: dynamicWrapper(app, ['activityAdd'], () =>
-        import('../routes/ActivityManage/ActivityAdd')
+        import('../routes/ActivityManage/ActivityAddInstance')
       ),
     },
     '/activityManage/activityList': {

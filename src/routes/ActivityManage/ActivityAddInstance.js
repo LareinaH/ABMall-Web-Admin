@@ -35,6 +35,8 @@ class ActivityAddInstance extends PureComponent {
     } = activityAdd;
     const { leastSales, leastPerson, v1Award, v2Award, v3Award } = activityAdd;
 
+    console.log(activityDesc);
+
     const setValue = (key, value) => {
       dispatch({
         type: 'activityAdd/setData',
@@ -50,13 +52,6 @@ class ActivityAddInstance extends PureComponent {
       style: {
         display: 'flex',
       },
-    };
-
-    const handleChange = content => {
-      dispatch({
-        type: 'activityAdd/setDatas',
-        payload: [{ key: 'activityDesc', value: content }],
-      });
     };
 
     const buildPreviewHtml = () => {
@@ -113,7 +108,6 @@ class ActivityAddInstance extends PureComponent {
       contentFormat: 'html',
       initialContent: activityDesc,
       // contentId: id ? MD5.hash(id.toString()) : MD5.hash(moment().format()),
-      onChange: handleChange,
       excludeControls: ['emoji'],
       media: {
         allowPasteImage: true, // 是否允许直接粘贴剪贴板图片（例如QQ截图等）到编辑器
@@ -186,13 +180,13 @@ class ActivityAddInstance extends PureComponent {
                 style={{ width: 400 }}
                 placeholder="请选择商品"
                 optionFilterProp="children"
-                value={selectGoods}
+                value={selectGoods ? selectGoods.toString() : ''}
                 onChange={value => {
                   dispatch({
                     type: 'activityAdd/setData',
                     payload: {
                       key: 'selectGoods',
-                      value,
+                      value: Number.parseInt(value, 10),
                     },
                   });
                 }}
@@ -201,7 +195,9 @@ class ActivityAddInstance extends PureComponent {
                 }
               >
                 {goodsList.map(item => (
-                  <Select.Option key={item.id}>{`${item.breif}(${item.id})`}</Select.Option>
+                  <Select.Option key={item.id.toString()}>{`${item.breif}(${
+                    item.id
+                  })`}</Select.Option>
                 ))}
               </Select>
             </Col>
@@ -336,7 +332,7 @@ class ActivityAddInstance extends PureComponent {
                 icon="save"
                 onClick={() => {
                   dispatch({
-                    type: 'noticeAdd/setDatas',
+                    type: 'activityAdd/setDatas',
                     payload: [{ key: 'activityDesc', value: this.editorInstance.getContent() }],
                   });
 
