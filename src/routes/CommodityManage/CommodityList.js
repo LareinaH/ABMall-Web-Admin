@@ -187,6 +187,10 @@ const CommodityList = ({ dispatch, loading, commodityList, location }) => {
               placeholder="按商品名称查询"
               onSearch={() => {
                 dispatch({
+                  type: 'commodityList/setDatas',
+                  payload: [{ key: 'current', value: 1 }],
+                });
+                dispatch({
                   type: 'commodityList/getGoodsListPage',
                 });
               }}
@@ -211,7 +215,7 @@ const CommodityList = ({ dispatch, loading, commodityList, location }) => {
                 onChange={value => {
                   dispatch({
                     type: 'commodityList/setDatas',
-                    payload: [{ key: 'searchIsOnSale', value }],
+                    payload: [{ key: 'searchIsOnSale', value }, { key: 'current', value: 1 }],
                   });
 
                   dispatch({
@@ -234,6 +238,7 @@ const CommodityList = ({ dispatch, loading, commodityList, location }) => {
                   payload: [
                     { key: 'searchIsOnSale', value: undefined },
                     { key: 'searchGoodsName', value: undefined },
+                    { key: 'current', value: 1 },
                   ],
                 });
 

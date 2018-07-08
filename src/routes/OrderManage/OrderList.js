@@ -51,7 +51,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
   const onOrderStatusChange = value => {
     dispatch({
       type: 'orderList/setDatas',
-      payload: [{ key: 'orderStatus', value }],
+      payload: [{ key: 'orderStatus', value }, { key: 'current', value: 1 }],
     });
 
     dispatch({
@@ -61,7 +61,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
   const onReturnsStatusChange = value => {
     dispatch({
       type: 'orderList/setDatas',
-      payload: [{ key: 'returnsStatus', value }],
+      payload: [{ key: 'returnsStatus', value }, { key: 'current', value: 1 }],
     });
 
     dispatch({
@@ -72,7 +72,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
   const onDaysSelectChange = value => {
     dispatch({
       type: 'orderList/setDatas',
-      payload: [{ key: 'daysRange', value }],
+      payload: [{ key: 'daysRange', value }, { key: 'current', value: 1 }],
     });
 
     onDaysRangeChange([moment().subtract(Number.parseInt(value, 10), 'days'), moment()]);
@@ -261,6 +261,11 @@ const OrderList = ({ dispatch, loading, orderList }) => {
           <Search
             placeholder="按订单号查询"
             onSearch={() => {
+              dispatch({
+                type: 'orderList/setDatas',
+                payload: [{ key: 'current', value: 1 }],
+              });
+
               dispatch({
                 type: 'orderList/getOrderList',
               });
