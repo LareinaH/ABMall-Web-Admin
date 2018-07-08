@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import MD5 from 'md5-es';
 import BraftEditor from 'braft-editor';
 import 'braft-editor/dist/braft.css';
 import { connect } from 'dva';
@@ -100,7 +101,8 @@ const ActivityAdd = ({ dispatch, loading, activityAdd }) => {
   const editorProps = {
     height: 500,
     contentFormat: 'html',
-    contentId: activityDesc,
+    initialContent: activityDesc,
+    contentId: activityDesc ? MD5.hash(activityDesc) : MD5.hash(moment().format()),
     onChange: handleChange,
     excludeControls: ['emoji'],
     media: {

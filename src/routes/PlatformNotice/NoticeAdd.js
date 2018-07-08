@@ -1,5 +1,7 @@
 import React from 'react';
 import BraftEditor from 'braft-editor';
+import MD5 from 'md5-es';
+import moment from 'moment';
 import 'braft-editor/dist/braft.css';
 import { connect } from 'dva';
 import { Card, Row, Col, Input, Button, DatePicker, Radio } from 'antd';
@@ -133,6 +135,7 @@ const NoticeAdd = ({ dispatch, loading, noticeAdd }) => {
     height: 500,
     contentFormat: 'html',
     initialContent: messageDetail,
+    contentId: messageDetail ? MD5.hash(messageDetail) : MD5.hash(moment().format()),
     onChange: content => {
       dispatch({
         type: 'noticeAdd/setDatas',
