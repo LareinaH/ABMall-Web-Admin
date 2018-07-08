@@ -1,7 +1,7 @@
 import modelExtend from 'dva-model-extend';
 import moment from 'moment';
 import commonModel from './common';
-import { getOptionMapList, getOrderList } from '../services/orderManage';
+import { getOptionMapList, getOrderList, delivery, replenish } from '../services/orderManage';
 
 const { pageModel } = commonModel;
 
@@ -18,6 +18,12 @@ export default modelExtend(pageModel, {
     returnsStatusMapList: [],
     searchOrderId: undefined,
     orderDetailListData: [],
+
+    showEditorOrderModal: false,
+    type: '发货',
+    orderId: undefined,
+    trackingNumber: undefined,
+    orderNo: undefined,
   },
 
   subscriptions: {
@@ -97,6 +103,46 @@ export default modelExtend(pageModel, {
           },
         });
       }
+    },
+
+    *shipOrReplenish(_, { call, put, select }) {
+      const { trackingNumber, orderId, type } = yield select(state => state.orderList);
+      let response;
+      if (type === '发货') {
+        response = yield call(delivery, {
+          orderId,
+          trackingNumber,
+        });
+      } else {
+        response = yield call(replenish, {
+          orderId,
+          trackingNumber,
+        });
+      }
+
+      if (response.code === 200) {
+        yield put({
+          type: 'showNotice',
+          payload: `${type}操作成功`,
+        });
+
+        yield put({
+          type: 'setData',
+          payload: {
+            key: 'showEditorOrderModal',
+            value: false,
+          },
+        });
+      } else {
+        yield put({
+          type: 'showNotice',
+          payload: `${type}操作失败:${response.message}`,
+        });
+      }
+
+      yield put({
+        type: 'getOrderList',
+      });
     },
   },
 

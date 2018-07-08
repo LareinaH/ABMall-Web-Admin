@@ -1,11 +1,26 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Card, Row, Col, DatePicker, Select, Input, Button, Table, Alert } from 'antd';
+import {
+  Card,
+  Row,
+  Col,
+  DatePicker,
+  Select,
+  Input,
+  Button,
+  Table,
+  Alert,
+  Modal,
+  Radio,
+} from 'antd';
 import NoticeModal from '../NoticeModal';
+import FormRow from '../../components/MyComponent/FormRow';
 
 const { RangePicker } = DatePicker;
 const { Search } = Input;
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
 
 const OrderList = ({ dispatch, loading, orderList }) => {
   const { dateStart, dateEnd, daysRange } = orderList;
@@ -16,6 +31,9 @@ const OrderList = ({ dispatch, loading, orderList }) => {
     returnsStatusMapList,
     searchOrderId,
   } = orderList;
+
+  const { showEditorOrderModal, type, trackingNumber, orderNo } = orderList;
+
   const { orderDetailListData } = orderList;
   const { current, pageSize, total } = orderList;
 
@@ -97,15 +115,25 @@ const OrderList = ({ dispatch, loading, orderList }) => {
     },
     {
       title: '订单状态',
-      dataIndex: 'orderStatus',
+      render: (text, record) => {
+        return orderStatusMapList
+          .filter(x => x.value === record.orderStatus)
+          .map(x => x.label)
+          .join(',');
+      },
     },
     {
       title: '快递单号',
       dataIndex: 'logisticCode',
     },
     {
-      title: '退/补货状态',
-      dataIndex: 'returnStatus',
+      title: '补货状态',
+      render: (text, record) => {
+        return returnsStatusMapList
+          .filter(x => x.value === record.returnStatus)
+          .map(x => x.label)
+          .join(',');
+      },
     },
     {
       title: '订单变更时间',
@@ -117,9 +145,31 @@ const OrderList = ({ dispatch, loading, orderList }) => {
     },
     {
       title: '操作',
-      render: () => (
+      render: (text, record) => (
         <div>
-          <a>编辑</a>
+          <a
+            onClick={() => {
+              dispatch({
+                type: 'orderList/setDatas',
+                payload: [
+                  {
+                    key: 'showEditorOrderModal',
+                    value: true,
+                  },
+                  {
+                    key: 'orderId',
+                    value: record.id,
+                  },
+                  {
+                    key: 'orderNo',
+                    value: record.orderNo,
+                  },
+                ],
+              });
+            }}
+          >
+            编辑
+          </a>
         </div>
       ),
     },
@@ -269,6 +319,70 @@ const OrderList = ({ dispatch, loading, orderList }) => {
           <Table {...tableProps} />
         </Col>
       </Row>
+
+      <Modal
+        title="编辑"
+        visible={showEditorOrderModal}
+        onCancel={() => {
+          dispatch({
+            type: 'orderList/setData',
+            payload: {
+              key: 'showEditorOrderModal',
+              value: false,
+            },
+          });
+        }}
+        onOk={() => {
+          dispatch({
+            type: 'orderList/shipOrReplenish',
+          });
+        }}
+        destroyOnClose
+        width="30%"
+        confirmLoading={loading.effects['orderList/shipOrReplenish']}
+      >
+        <FormRow label="订单号" labelSpan={4} contentSpan={6}>
+          <Input placeholder="订单号" style={{ width: 400 }} value={orderNo} disabled />
+        </FormRow>
+        <FormRow label="类型" labelSpan={4} contentSpan={6}>
+          <RadioGroup
+            onChange={e => {
+              dispatch({
+                type: 'orderList/setData',
+                payload: {
+                  key: 'type',
+                  value: e.target.value,
+                },
+              });
+            }}
+            value={type}
+          >
+            <RadioButton value="发货">发货</RadioButton>
+            <RadioButton value="补货">补货</RadioButton>
+          </RadioGroup>
+        </FormRow>
+        <FormRow label="物流公司" labelSpan={4} contentSpan={6}>
+          <Select value="ems" style={{ width: 300 }}>
+            <Select.Option value="ems">中国邮政</Select.Option>
+          </Select>
+        </FormRow>
+        <FormRow label="运单号" labelSpan={4} contentSpan={6}>
+          <Input
+            placeholder="请输入运单号"
+            style={{ width: 400 }}
+            value={trackingNumber}
+            onChange={e => {
+              dispatch({
+                type: 'orderList/setData',
+                payload: {
+                  key: 'trackingNumber',
+                  value: e.target.value,
+                },
+              });
+            }}
+          />
+        </FormRow>
+      </Modal>
 
       <NoticeModal
         title="注意"

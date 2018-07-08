@@ -28,3 +28,27 @@ export async function getOrderList(params) {
     }
   );
 }
+
+export async function delivery(params) {
+  return request(
+    `${config.APIV1}/admin/orders/delivery?${stringify({
+      orderId: params.orderId,
+      logisticCode: params.trackingNumber,
+    })}`,
+    {
+      method: 'POST',
+    }
+  );
+}
+
+export async function replenish(params) {
+  return request(
+    `${config.APIV1}/admin/orders/replenish?${stringify({
+      orderId: params.orderId,
+      logisticCode: params.trackingNumber,
+    })}`,
+    {
+      method: 'POST',
+    }
+  );
+}
