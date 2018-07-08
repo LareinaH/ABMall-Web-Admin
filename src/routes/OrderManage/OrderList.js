@@ -190,7 +190,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
     loading: loading.effects['orderList/getOrderList'],
     // size: 'small',
     pagination: {
-      size: 'small',
+      // size: 'small',
       showTotal,
       showSizeChanger: true,
       showQuickJumper: true,

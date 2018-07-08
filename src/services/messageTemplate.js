@@ -6,7 +6,7 @@ export async function getKeyValues() {
 }
 
 export async function saveKeyPairs(params) {
-  return request(`${config.APIV1}/admin/msgMessageTemplate/update`, {
+  return request(`${config.APIV1}/admin/msgMessageTemplate/updateConfig`, {
     method: 'POST',
     body: params,
   });

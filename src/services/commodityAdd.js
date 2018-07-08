@@ -34,7 +34,7 @@ export async function getGoodsListPage(params) {
     })}`,
     {
       method: 'POST',
-      body: {},
+      body: params.conditions,
     }
   );
 }

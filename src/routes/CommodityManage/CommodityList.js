@@ -1,15 +1,17 @@
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-array-index-key,react/jsx-boolean-value */
 import React from 'react';
 import { stringify } from 'qs';
 import { connect } from 'dva';
-import { Divider, Popconfirm, Table, Row, Col, Card, Tag } from 'antd';
+import { Divider, Popconfirm, Table, Row, Col, Card, Tag, Button, Input, Select } from 'antd';
 import { pagination } from '../../common/tablePageProps';
 import { addAlignForColumns } from '../../utils/utils';
 import NoticeModal from '../NoticeModal';
 
-const CommodityList = ({ dispatch, loading, commodityList }) => {
+const { Search } = Input;
+
+const CommodityList = ({ dispatch, loading, commodityList, location }) => {
   const { categoryList, goodsDetailList, expandedRows } = commodityList;
-  const { current, pageSize, total } = commodityList;
+  const { current, pageSize, total, searchIsOnSale, searchGoodsName } = commodityList;
 
   const onDeleteGoods = id => {
     dispatch({
@@ -89,7 +91,7 @@ const CommodityList = ({ dispatch, loading, commodityList }) => {
   addAlignForColumns(columns, 'center');
 
   const tableProps = {
-    size: 'small',
+    // size: 'small',
     dataSource: goodsDetailList,
     columns,
     rowKey: 'id',
@@ -163,7 +165,7 @@ const CommodityList = ({ dispatch, loading, commodityList }) => {
       addAlignForColumns(expandColumns, 'center');
 
       const expandTableProps = {
-        size: 'small',
+        // size: 'small',
         dataSource: goodsSpecificationList,
         columns: expandColumns,
         rowKey: 'id',
@@ -174,9 +176,76 @@ const CommodityList = ({ dispatch, loading, commodityList }) => {
     },
   };
 
+  const showSearchIsOnSale = !(location.pathname === '/commodityManage/offSold');
+
   return (
     <div>
       <Card>
+        <Row>
+          <Col span={6}>
+            <Search
+              placeholder="按商品名称查询"
+              onSearch={() => {
+                dispatch({
+                  type: 'commodityList/getGoodsListPage',
+                });
+              }}
+              enterButton
+              style={{ width: 300 }}
+              value={searchGoodsName}
+              onChange={e => {
+                dispatch({
+                  type: 'commodityList/setDatas',
+                  payload: [{ key: 'searchGoodsName', value: e.target.value }],
+                });
+              }}
+            />
+          </Col>
+          {showSearchIsOnSale && (
+            <Col span={6}>
+              <Select
+                allowClear
+                placeholder="请选择上架状态"
+                style={{ width: 240 }}
+                value={searchIsOnSale}
+                onChange={value => {
+                  dispatch({
+                    type: 'commodityList/setDatas',
+                    payload: [{ key: 'searchIsOnSale', value }],
+                  });
+
+                  dispatch({
+                    type: 'commodityList/getGoodsListPage',
+                  });
+                }}
+              >
+                <Select.Option key={true.toString()}>已上架</Select.Option>
+                <Select.Option key={false.toString()}>已下架</Select.Option>
+              </Select>
+            </Col>
+          )}
+          <Col span={6}>
+            <Button
+              type="primary"
+              icon="close"
+              onClick={() => {
+                dispatch({
+                  type: 'commodityList/setDatas',
+                  payload: [
+                    { key: 'searchIsOnSale', value: undefined },
+                    { key: 'searchGoodsName', value: undefined },
+                  ],
+                });
+
+                dispatch({
+                  type: 'commodityList/getGoodsListPage',
+                });
+              }}
+            >
+              重置查询条件
+            </Button>
+          </Col>
+        </Row>
         <Row>
           <Col span={24}>
             <Table {...tableProps} />

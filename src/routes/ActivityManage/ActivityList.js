@@ -85,7 +85,7 @@ const ActivityList = ({ dispatch, loading, activityList }) => {
   addAlignForColumns(columns, 'center');
 
   const tableProps = {
-    size: 'small',
+    // size: 'small',
     dataSource: activityDetailList,
     columns,
     rowKey: 'id',

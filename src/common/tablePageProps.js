@@ -3,7 +3,7 @@ const showTotal = (total, range) => {
 };
 
 const pagination = {
-  size: 'small',
+  // size: 'small',
   showTotal,
   showSizeChanger: true,
   showQuickJumper: true,

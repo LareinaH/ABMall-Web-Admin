@@ -14,12 +14,45 @@ export default modelExtend(pageModel, {
 
     goodsDetailList: [],
     expandedRows: [],
+    searchGoodsName: undefined,
+    searchIsOnSale: undefined,
   },
 
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
+        if (pathname === '/commodityManage/offSold') {
+          dispatch({
+            type: 'setDatas',
+            payload: [
+              { key: 'searchGoodsName', value: undefined },
+              { key: 'categoryList', value: [] },
+              { key: 'expandedRows', value: [] },
+              { key: 'goodsDetailList', value: [] },
+              { key: 'searchIsOnSale', value: 'false' },
+            ],
+          });
+
+          dispatch({
+            type: 'getCategoryList',
+          });
+
+          dispatch({
+            type: 'getGoodsListPage',
+          });
+        }
         if (pathname === '/commodityManage/commodityList') {
+          dispatch({
+            type: 'setDatas',
+            payload: [
+              { key: 'searchGoodsName', value: undefined },
+              { key: 'categoryList', value: [] },
+              { key: 'expandedRows', value: [] },
+              { key: 'goodsDetailList', value: [] },
+              { key: 'searchIsOnSale', value: undefined },
+            ],
+          });
+
           dispatch({
             type: 'getCategoryList',
           });
@@ -34,10 +67,17 @@ export default modelExtend(pageModel, {
 
   effects: {
     *getGoodsListPage(_, { call, put, select }) {
-      const { current, pageSize } = yield select(state => state.commodityList);
+      const { current, pageSize, searchGoodsName, searchIsOnSale } = yield select(
+        state => state.commodityList
+      );
       const response = yield call(getGoodsListPage, {
         pageNum: current,
         pageSize,
+        conditions: {
+          goodsName: searchGoodsName,
+          isOnSell:
+            searchIsOnSale === 'true' ? true : searchIsOnSale === 'false' ? false : undefined,
+        },
       });
       if (response.code === 200) {
         yield put({

@@ -79,7 +79,7 @@ const CategoryManage = ({
     loading: loading.effects['categoryManage/getCategoryList'],
     // size: 'small',
     pagination: {
-      size: 'small',
+      // size: 'small',
       showTotal,
       showSizeChanger: true,
       showQuickJumper: true,

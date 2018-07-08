@@ -89,7 +89,7 @@ const NoticeList = ({ dispatch, loading, noticeList }) => {
   addAlignForColumns(columns, 'center');
 
   const tableProps = {
-    size: 'small',
+    // size: 'small',
     dataSource: noticeDetailList,
     columns,
     rowKey: 'id',
