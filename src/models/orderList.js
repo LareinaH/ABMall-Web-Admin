@@ -107,6 +107,14 @@ export default modelExtend(pageModel, {
 
     *shipOrReplenish(_, { call, put, select }) {
       const { trackingNumber, orderId, type } = yield select(state => state.orderList);
+      if (!trackingNumber) {
+        yield put({
+          type: 'showNotice',
+          payload: '请填写运单号',
+        });
+
+        return null;
+      }
       let response;
       if (type === '发货') {
         response = yield call(delivery, {

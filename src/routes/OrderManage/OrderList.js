@@ -164,6 +164,10 @@ const OrderList = ({ dispatch, loading, orderList }) => {
                     key: 'orderNo',
                     value: record.orderNo,
                   },
+                  {
+                    key: 'trackingNumber',
+                    value: undefined,
+                  },
                 ],
               });
             }}
