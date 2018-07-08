@@ -28,7 +28,7 @@ export default modelExtend(pageModel, {
     *getActivityListPage(_, { call, put, select }) {
       const { current, pageSize } = yield select(state => state.activityList);
       const response = yield call(getActivityListPage, {
-        pageNum: current,
+        current,
         pageSize,
       });
       if (response.code === 200) {

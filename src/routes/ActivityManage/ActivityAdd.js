@@ -3,7 +3,7 @@ import moment from 'moment';
 import BraftEditor from 'braft-editor';
 import 'braft-editor/dist/braft.css';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, DatePicker } from 'antd';
+import { Card, Row, Col, Input, Button, DatePicker, Select, InputNumber } from 'antd';
 import NoticeModal from '../NoticeModal';
 import FormLabel from '../../components/MyComponent/FormLabel';
 
@@ -12,7 +12,27 @@ import style from './index.less';
 const { RangePicker } = DatePicker;
 
 const ActivityAdd = ({ dispatch, loading, activityAdd }) => {
-  const { id, activityName, gmtStart, gmtEnd, activityDesc } = activityAdd;
+  const {
+    id,
+    activityName,
+    gmtStart,
+    gmtEnd,
+    activityDesc,
+    goodsList,
+    selectGoods,
+    activityBrief,
+  } = activityAdd;
+  const { leastSales, leastPerson, v1Award, v2Award, v3Award } = activityAdd;
+
+  const setValue = (key, value) => {
+    dispatch({
+      type: 'activityAdd/setData',
+      payload: {
+        key,
+        value,
+      },
+    });
+  };
 
   const formProps = {
     span: 24,
@@ -80,7 +100,7 @@ const ActivityAdd = ({ dispatch, loading, activityAdd }) => {
   const editorProps = {
     height: 500,
     contentFormat: 'html',
-    initialContent: '<p>Hello World!</p>',
+    contentId: activityDesc,
     onChange: handleChange,
     excludeControls: ['emoji'],
     media: {
@@ -129,13 +149,60 @@ const ActivityAdd = ({ dispatch, loading, activityAdd }) => {
         </Row>
         <Row>
           <Col {...formProps}>
+            <FormLabel label="活动简介" />
+            <Input
+              placeholder="请输入活动简介"
+              style={{ width: 400 }}
+              value={activityBrief}
+              onChange={e => {
+                dispatch({
+                  type: 'activityAdd/setData',
+                  payload: {
+                    key: 'activityBrief',
+                    value: e.target.value,
+                  },
+                });
+              }}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col {...formProps}>
+            <FormLabel label="添加商品" />
+            <Select
+              showSearch
+              style={{ width: 400 }}
+              placeholder="请选择商品"
+              optionFilterProp="children"
+              value={selectGoods}
+              onChange={value => {
+                dispatch({
+                  type: 'activityAdd/setData',
+                  payload: {
+                    key: 'selectGoods',
+                    value,
+                  },
+                });
+              }}
+              filterOption={(input, option) =>
+                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {goodsList.map(item => (
+                <Select.Option key={item.id}>{`${item.breif}(${item.id})`}</Select.Option>
+              ))}
+            </Select>
+          </Col>
+        </Row>
+        <Row>
+          <Col {...formProps}>
             <FormLabel label="活动时间" />
             <RangePicker
               showTime={{ format: 'HH:mm:ss' }}
               format="YYYY-MM-DD HH:mm:ss"
               placeholder={['开始时间', '结束时间']}
               allowClear={false}
-              defaultValue={[gmtStart, gmtEnd]}
+              value={[gmtStart, gmtEnd]}
               ranges={{
                 今天: [moment(), moment().endOf('day')],
                 本周: [moment(), moment().endOf('week')],
@@ -157,6 +224,83 @@ const ActivityAdd = ({ dispatch, loading, activityAdd }) => {
                 });
               }}
             />
+          </Col>
+        </Row>
+        <Row className={style.activitySetting}>
+          <Col {...formProps}>
+            <FormLabel label="活动设置" />
+            <Card title="活动达标设置">
+              <Row>
+                <Col>
+                  <FormLabel label="直推最低销售额" />
+                  <InputNumber
+                    value={leastSales}
+                    onChange={value => setValue('leastSales', value)}
+                    min={0}
+                    style={{ width: 100 }}
+                    formatter={value => `${value}元`}
+                    parser={value => value.replace('元', '')}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <FormLabel label="直推最低人数" />
+                  <InputNumber
+                    value={leastPerson}
+                    onChange={value => setValue('leastPerson', value)}
+                    min={0}
+                    style={{ width: 100 }}
+                    formatter={value => `${value}人`}
+                    parser={value => value.replace('人', '')}
+                  />
+                </Col>
+              </Row>
+            </Card>
+            <Card title="活动单品奖励">
+              <Row>
+                <Col>
+                  <FormLabel label="V1奖励" />
+                  <InputNumber
+                    value={v1Award}
+                    onChange={value => setValue('v1Award', value)}
+                    min={0}
+                    max={100}
+                    style={{ width: 100 }}
+                    formatter={value => `${value}%`}
+                    parser={value => value.replace('%', '')}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <FormLabel label="V2奖励" />
+                  <InputNumber
+                    value={v2Award}
+                    onChange={value => setValue('v2Award', value)}
+                    min={0}
+                    max={100}
+                    style={{ width: 100 }}
+                    formatter={value => `${value}%`}
+                    parser={value => value.replace('%', '')}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <FormLabel label="V3奖励" />
+                  <InputNumber
+                    value={v3Award}
+                    onChange={value => setValue('v3Award', value)}
+                    min={0}
+                    max={100}
+                    style={{ width: 100 }}
+                    formatter={value => `${value}%`}
+                    parser={value => value.replace('%', '')}
+                  />
+                </Col>
+              </Row>
+            </Card>
           </Col>
         </Row>
         <Row>
@@ -181,18 +325,18 @@ const ActivityAdd = ({ dispatch, loading, activityAdd }) => {
               onClick={() => {
                 if (id && id > 0) {
                   dispatch({
-                    type: 'activityAdd/updateNotice',
+                    type: 'activityAdd/updateActivity',
                   });
                 } else {
                   dispatch({
-                    type: 'activityAdd/addNotice',
+                    type: 'activityAdd/addActivity',
                   });
                 }
               }}
               loading={
                 id && id > 0
-                  ? loading.effects['activityAdd/updateNotice']
-                  : loading.effects['activityAdd/addNotice']
+                  ? loading.effects['activityAdd/updateActivity']
+                  : loading.effects['activityAdd/addActivity']
               }
             >
               保存

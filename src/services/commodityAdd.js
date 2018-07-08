@@ -29,7 +29,7 @@ export async function deleteGoods(params) {
 export async function getGoodsListPage(params) {
   return request(
     `${config.APIV1}/admin/goods/queryPageList?${stringify({
-      pageNum: params.current,
+      pageNum: params.pageNum,
       pageSize: params.pageSize,
     })}`,
     {
@@ -41,4 +41,8 @@ export async function getGoodsListPage(params) {
 
 export async function getSpecUnitList() {
   return request(`${config.APIV1}/admin/goods/getSpecUnitList`);
+}
+
+export async function getGoodsList() {
+  return request(`${config.APIV1}/admin/goods/queryList`);
 }

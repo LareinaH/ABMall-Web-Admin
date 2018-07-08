@@ -37,7 +37,7 @@ export default modelExtend(pageModel, {
     *getNoticeListPage(_, { call, put, select }) {
       const { current, pageSize } = yield select(state => state.noticeList);
       const response = yield call(getNoticeListPage, {
-        pageNum: current,
+        current,
         pageSize,
       });
       if (response.code === 200) {

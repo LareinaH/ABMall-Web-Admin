@@ -29,8 +29,13 @@ const ActivityList = ({ dispatch, loading, activityList }) => {
     },
     {
       title: '活动时间',
-      render: () => {
-        return '-';
+      render: (text, record) => {
+        return (
+          <div>
+            <div>{record.gmtStart}-</div>
+            <div>{record.gmtEnd}</div>
+          </div>
+        );
       },
     },
     {

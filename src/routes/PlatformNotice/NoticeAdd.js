@@ -1,16 +1,19 @@
 import React from 'react';
+import BraftEditor from 'braft-editor';
+import 'braft-editor/dist/braft.css';
 import { connect } from 'dva';
 import { Card, Row, Col, Input, Button, DatePicker, Radio } from 'antd';
 import NoticeModal from '../NoticeModal';
 import PicUpload from '../CommodityManage/PicUpload';
 import FormLabel from '../../components/MyComponent/FormLabel';
 import config from '../../utils/config';
+import style from './index.less';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 const NoticeAdd = ({ dispatch, loading, noticeAdd }) => {
-  const { title, adsUrl, level, gmtPublish, id } = noticeAdd;
+  const { title, adsUrl, level, gmtPublish, id, messageDetail } = noticeAdd;
 
   const formProps = {
     span: 24,
@@ -75,6 +78,88 @@ const NoticeAdd = ({ dispatch, loading, noticeAdd }) => {
         },
       });
     },
+  };
+
+  const buildPreviewHtml = () => {
+    return `
+      <!Doctype html>
+      <html>
+        <head>
+          <title>内容预览</title>
+          <style>
+            html,body{
+              height: 100%;
+              margin: 0;
+              padding: 0;
+              overflow: auto;
+              background-color: #f1f2f3;
+            }
+            .container{
+              box-sizing: border-box;
+              width: 1000px;
+              max-width: 100%;
+              min-height: 100%;
+              margin: 0 auto;
+              padding: 30px 20px;
+              overflow: hidden;
+              background-color: #fff;
+              border-right: solid 1px #eee;
+              border-left: solid 1px #eee;
+            }
+            .container img,
+            .container audio,
+            .container video{
+              max-width: 100%;
+              height: auto;
+            }
+          </style>
+        </head>
+        <body>
+            <div class="container">${messageDetail}</div>
+        </body>
+      </html>
+    `;
+  };
+
+  const preview = () => {
+    if (window.previewWindow) {
+      window.previewWindow.close();
+    }
+    window.previewWindow = window.open();
+    window.previewWindow.document.write(buildPreviewHtml());
+  };
+
+  const editorProps = {
+    height: 500,
+    contentFormat: 'html',
+    initialContent: messageDetail,
+    onChange: content => {
+      dispatch({
+        type: 'noticeAdd/setDatas',
+        payload: [{ key: 'messageDetail', value: content }],
+      });
+    },
+    excludeControls: ['emoji'],
+    media: {
+      allowPasteImage: true, // 是否允许直接粘贴剪贴板图片（例如QQ截图等）到编辑器
+      image: true, // 开启图片插入功能
+      video: false, // 开启视频插入功能
+      audio: false, // 开启音频插入功能
+      externalMedias: {
+        image: true,
+        audio: false,
+        video: false,
+        embed: false,
+      },
+    },
+    extendControls: [
+      {
+        type: 'button',
+        className: style['preview-button'],
+        text: <span>预览</span>,
+        onClick: preview,
+      },
+    ],
   };
 
   return (
@@ -147,6 +232,20 @@ const NoticeAdd = ({ dispatch, loading, noticeAdd }) => {
               <RadioButton value="NOT_IMPORTANT_EMERGENCY">紧急非重要</RadioButton>
               <RadioButton value="NOT_IMPORTANT_NOT_EMERGENCY">非重要非紧急</RadioButton>
             </RadioGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col {...formProps}>
+            <FormLabel label="活动详情" />
+            <div
+              style={{
+                borderRadius: 5,
+                border: 'solid 1px rgba(0, 0, 0, 0.25)',
+                boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <BraftEditor {...editorProps} />
+            </div>
           </Col>
         </Row>
         <Row>

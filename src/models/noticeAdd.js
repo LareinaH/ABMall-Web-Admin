@@ -21,6 +21,7 @@ export default modelExtend(pageModel, {
     ],
     gmtPublish: moment(),
     level: 'IMPORTANT_EMERGENCY',
+    messageDetail: undefined,
   },
 
   subscriptions: {
@@ -45,6 +46,7 @@ export default modelExtend(pageModel, {
               },
               { key: 'gmtPublish', value: moment() },
               { key: 'level', value: 'IMPORTANT_EMERGENCY' },
+              { key: 'messageDetail', value: undefined },
             ],
           });
 
@@ -94,11 +96,14 @@ export default modelExtend(pageModel, {
       }
     },
     *addNotice(_, { call, put, select }) {
-      const { title, adsUrl, gmtPublish, level } = yield select(state => state.noticeAdd);
+      const { title, adsUrl, gmtPublish, level, messageDetail } = yield select(
+        state => state.noticeAdd
+      );
 
       const response = yield call(addNotice, {
         title,
         level,
+        messageDetail,
         gmtPublish: gmtPublish.format('YYYY-MM-DD HH:mm:ss'),
         adsUrl: adsUrl
           .map(x => x.adUrl)
@@ -122,12 +127,15 @@ export default modelExtend(pageModel, {
       }
     },
     *updateNotice(_, { call, put, select }) {
-      const { id, title, adsUrl, gmtPublish, level } = yield select(state => state.noticeAdd);
+      const { id, title, adsUrl, gmtPublish, level, messageDetail } = yield select(
+        state => state.noticeAdd
+      );
 
       const response = yield call(updateNotice, {
         id,
         title,
         level,
+        messageDetail,
         gmtPublish: gmtPublish.format('YYYY-MM-DD HH:mm:ss'),
         adsUrl: adsUrl
           .map(x => x.adUrl)
