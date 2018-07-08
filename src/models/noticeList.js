@@ -11,6 +11,7 @@ export default modelExtend(pageModel, {
   state: {
     levelList: [],
     noticeDetailList: [],
+    noticeStatusList: [],
   },
 
   subscriptions: {
@@ -22,6 +23,14 @@ export default modelExtend(pageModel, {
             payload: {
               enumType: 'platformMessageLevel',
               key: 'levelList',
+            },
+          });
+
+          dispatch({
+            type: 'getLevelList',
+            payload: {
+              enumType: 'platformMessageStatus',
+              key: 'noticeStatusList',
             },
           });
 

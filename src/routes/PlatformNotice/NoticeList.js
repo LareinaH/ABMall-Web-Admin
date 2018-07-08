@@ -2,14 +2,14 @@
 import React from 'react';
 import { stringify } from 'qs';
 import { connect } from 'dva';
-import { Divider, Popconfirm, Table, Row, Col, Card, Tag } from 'antd';
+import { Divider, Popconfirm, Table, Row, Col, Card } from 'antd';
 import { pagination } from '../../common/tablePageProps';
 import { addAlignForColumns } from '../../utils/utils';
 import NoticeModal from '../NoticeModal';
 
 const NoticeList = ({ dispatch, loading, noticeList }) => {
   const { current, pageSize, total } = noticeList;
-  const { noticeDetailList, levelList } = noticeList;
+  const { noticeDetailList, levelList, noticeStatusList } = noticeList;
 
   const onDeleteNotice = id => {
     dispatch({
@@ -42,13 +42,17 @@ const NoticeList = ({ dispatch, loading, noticeList }) => {
       },
     },
     {
-      title: '是否显示',
-      dataIndex: 'isOnSell',
-      render: text => {
-        if (text) {
-          return <Tag color="#87d068">是</Tag>;
+      title: '发送状态',
+      dataIndex: 'messageStatus',
+      render: (text, record) => {
+        const status = noticeStatusList
+          .filter(x => x.value === record.messageStatus)
+          .map(x => x.label)
+          .join(',');
+        if (status) {
+          return status;
         } else {
-          return <Tag color="#f50">否</Tag>;
+          return record.level;
         }
       },
     },
