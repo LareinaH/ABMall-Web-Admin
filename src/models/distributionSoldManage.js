@@ -60,7 +60,7 @@ export default modelExtend(pageModel, {
       if (response.code === 200) {
         yield put({
           type: 'showNotice',
-          payload: `保存消息模板配置成功`,
+          payload: `保存分销配置成功`,
         });
         yield put({
           type: 'getKeyValues',
@@ -68,7 +68,7 @@ export default modelExtend(pageModel, {
       } else {
         yield put({
           type: 'showNotice',
-          payload: `更新消息模板配置值失败:${response.message}`,
+          payload: `更新分销配置值失败:${response.message}`,
         });
       }
     },

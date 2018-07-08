@@ -70,11 +70,13 @@ export default modelExtend(pageModel, {
       });
 
       if (response.code === 200) {
-        const { title, adsUrl, gmtPublish, level } = response.data;
+        const { title, adsUrl, gmtPublish, level, id, messageDetail } = response.data;
         const data = {};
         Object.assign(data, {
+          id,
           title,
           level,
+          messageDetail,
           adsUrl: [
             {
               adUrl: adsUrl,

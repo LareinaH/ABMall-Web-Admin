@@ -131,6 +131,8 @@ const NoticeAdd = ({ dispatch, loading, noticeAdd }) => {
     window.previewWindow.document.write(buildPreviewHtml());
   };
 
+  console.log(messageDetail);
+
   const editorProps = {
     height: 500,
     contentFormat: 'html',

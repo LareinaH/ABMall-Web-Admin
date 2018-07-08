@@ -34,6 +34,13 @@ const CommodityList = ({ dispatch, loading, commodityList }) => {
     {
       title: '是否上架',
       dataIndex: 'isOnSell',
+      render: text => {
+        if (text) {
+          return <Tag color="#87d068">是</Tag>;
+        } else {
+          return <Tag color="#f50">否</Tag>;
+        }
+      },
     },
     {
       title: '库存',

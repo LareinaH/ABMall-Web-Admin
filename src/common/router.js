@@ -115,7 +115,7 @@ export const getRouterData = app => {
     },
     '/platformNotice/noticeAdd': {
       component: dynamicWrapper(app, ['noticeAdd'], () =>
-        import('../routes/PlatformNotice/NoticeAdd')
+        import('../routes/PlatformNotice/NoticeAddInstance')
       ),
     },
     '/platformNotice/noticeList': {

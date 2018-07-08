@@ -102,7 +102,7 @@ const ActivityAdd = ({ dispatch, loading, activityAdd }) => {
     height: 500,
     contentFormat: 'html',
     initialContent: activityDesc,
-    contentId: activityDesc ? MD5.hash(activityDesc) : MD5.hash(moment().format()),
+    contentId: id ? MD5.hash(id.toString()) : MD5.hash(moment().format()),
     onChange: handleChange,
     excludeControls: ['emoji'],
     media: {
