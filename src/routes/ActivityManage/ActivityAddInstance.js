@@ -373,7 +373,7 @@ class ActivityAddInstance extends PureComponent {
                     : loading.effects['activityAdd/addActivity']
                 }
               >
-                保存
+                提交生效
               </Button>
             </Col>
           </Row>
