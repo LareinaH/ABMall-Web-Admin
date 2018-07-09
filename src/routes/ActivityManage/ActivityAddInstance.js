@@ -30,19 +30,31 @@ class ActivityAddInstance extends PureComponent {
       gmtEnd,
       activityDesc,
       goodsList,
-      selectGoods,
       activityBrief,
     } = activityAdd;
-    const { leastSales, leastPerson, v1Award, v2Award, v3Award } = activityAdd;
 
-    console.log(activityDesc);
+    const { shopActivityGoods, shopActivityConfigList } = activityAdd;
 
-    const setValue = (key, value) => {
+    const getConfValue = key => {
+      if (shopActivityConfigList && shopActivityConfigList.length > 0) {
+        return shopActivityConfigList.filter(x => x.item === key)[0].value;
+      } else {
+        return undefined;
+      }
+    };
+
+    const setConfValue = (key, value) => {
+      for (const item of shopActivityConfigList) {
+        if (item.item === key) {
+          item.value = value.toString();
+        }
+      }
+
       dispatch({
         type: 'activityAdd/setData',
         payload: {
-          key,
-          value,
+          key: 'shopActivityConfigList',
+          value: shopActivityConfigList,
         },
       });
     };
@@ -180,13 +192,22 @@ class ActivityAddInstance extends PureComponent {
                 style={{ width: 400 }}
                 placeholder="请选择商品"
                 optionFilterProp="children"
-                value={selectGoods ? selectGoods.toString() : ''}
+                value={
+                  shopActivityGoods.goodsId === undefined
+                    ? undefined
+                    : shopActivityGoods.goodsId.toString()
+                }
                 onChange={value => {
+                  const data = {};
+                  Object.assign(data, shopActivityGoods, {
+                    goodsId: Number.parseInt(value, 10),
+                  });
+
                   dispatch({
                     type: 'activityAdd/setData',
                     payload: {
-                      key: 'selectGoods',
-                      value: Number.parseInt(value, 10),
+                      key: 'shopActivityGoods',
+                      value: data,
                     },
                   });
                 }}
@@ -195,9 +216,9 @@ class ActivityAddInstance extends PureComponent {
                 }
               >
                 {goodsList.map(item => (
-                  <Select.Option key={item.id.toString()}>{`${item.breif}(${
-                    item.id
-                  })`}</Select.Option>
+                  <Select.Option key={item.id.toString()}>
+                    {`${item.breif}(${item.id})`}
+                  </Select.Option>
                 ))}
               </Select>
             </Col>
@@ -242,8 +263,8 @@ class ActivityAddInstance extends PureComponent {
                   <Col>
                     <FormLabel label="直推最低销售额" />
                     <InputNumber
-                      value={leastSales}
-                      onChange={value => setValue('leastSales', value)}
+                      value={getConfValue('PROMOTION_TOTLE_MONEY')}
+                      onChange={value => setConfValue('PROMOTION_TOTLE_MONEY', value)}
                       min={0}
                       style={{ width: 100 }}
                       formatter={value => `${value}元`}
@@ -255,8 +276,8 @@ class ActivityAddInstance extends PureComponent {
                   <Col>
                     <FormLabel label="直推最低人数" />
                     <InputNumber
-                      value={leastPerson}
-                      onChange={value => setValue('leastPerson', value)}
+                      value={getConfValue('ACTIVITY_TOTLE_SHARE_PEOPLE')}
+                      onChange={value => setConfValue('ACTIVITY_TOTLE_SHARE_PEOPLE', value)}
                       min={0}
                       style={{ width: 100 }}
                       formatter={value => `${value}人`}
@@ -270,8 +291,8 @@ class ActivityAddInstance extends PureComponent {
                   <Col>
                     <FormLabel label="V1奖励" />
                     <InputNumber
-                      value={v1Award}
-                      onChange={value => setValue('v1Award', value)}
+                      value={getConfValue('ACTIVITY_AWARD_V1')}
+                      onChange={value => setConfValue('ACTIVITY_AWARD_V1', value)}
                       min={0}
                       max={100}
                       style={{ width: 100 }}
@@ -284,8 +305,8 @@ class ActivityAddInstance extends PureComponent {
                   <Col>
                     <FormLabel label="V2奖励" />
                     <InputNumber
-                      value={v2Award}
-                      onChange={value => setValue('v2Award', value)}
+                      value={getConfValue('ACTIVITY_AWARD_V2')}
+                      onChange={value => setConfValue('ACTIVITY_AWARD_V2', value)}
                       min={0}
                       max={100}
                       style={{ width: 100 }}
@@ -298,8 +319,8 @@ class ActivityAddInstance extends PureComponent {
                   <Col>
                     <FormLabel label="V3奖励" />
                     <InputNumber
-                      value={v3Award}
-                      onChange={value => setValue('v3Award', value)}
+                      value={getConfValue('ACTIVITY_AWARD_V3')}
+                      onChange={value => setConfValue('ACTIVITY_AWARD_V3', value)}
                       min={0}
                       max={100}
                       style={{ width: 100 }}

@@ -30,6 +30,7 @@ export default modelExtend(pageModel, {
               { key: 'expandedRows', value: [] },
               { key: 'goodsDetailList', value: [] },
               { key: 'searchIsOnSale', value: 'false' },
+              { key: 'current', value: 1 },
             ],
           });
 
@@ -50,6 +51,7 @@ export default modelExtend(pageModel, {
               { key: 'expandedRows', value: [] },
               { key: 'goodsDetailList', value: [] },
               { key: 'searchIsOnSale', value: undefined },
+              { key: 'current', value: 1 },
             ],
           });
 
