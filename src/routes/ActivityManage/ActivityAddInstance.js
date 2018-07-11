@@ -145,6 +145,8 @@ class ActivityAddInstance extends PureComponent {
           // eslint-disable-next-line func-names
           co(function*() {
             yield ossClient.multipartUpload(objectKey, file, {
+              // 分片大小100kb
+              partSize: 102400,
               mime: 'image/jpeg',
               *progress(p) {
                 param.progress(p * 100);
