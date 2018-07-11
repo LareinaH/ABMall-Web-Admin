@@ -108,6 +108,11 @@ export const getRouterData = app => {
         import('../routes/OrderManage/OrderList')
       ),
     },
+    '/orderManage/orderStat': {
+      component: dynamicWrapper(app, ['orderStat'], () =>
+        import('../routes/OrderManage/OrderStat')
+      ),
+    },
     '/messageTemplate': {
       component: dynamicWrapper(app, ['messageTemplate'], () =>
         import('../routes/MessageTemplate/MessageTemplate')

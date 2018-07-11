@@ -160,6 +160,7 @@ class ActivityAddInstance extends PureComponent {
               url: `${newAdUrl}`,
             });
           }).catch(err => {
+            console.log(err);
             param.error({
               msg: `upload failed:${err}`,
             });

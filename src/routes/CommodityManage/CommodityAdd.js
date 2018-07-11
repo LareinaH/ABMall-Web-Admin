@@ -1,3 +1,4 @@
+/* eslint-disable no-unneeded-ternary */
 import React from 'react';
 import { connect } from 'dva';
 import { Form, Row, Col, Card, Input, Select, InputNumber, Button } from 'antd';
@@ -89,6 +90,7 @@ const CommodityAdd = ({ dispatch, loading, commodityAdd }) => {
   };
 
   const specListProps = {
+    isEdit: goodsVo.id ? true : false,
     dispatch,
     specUnitList,
     goodsSpecificationList,

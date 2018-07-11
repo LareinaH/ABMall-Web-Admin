@@ -3,6 +3,7 @@ import React from 'react';
 import { Row, Col, Input, Select, Checkbox, InputNumber, Icon, Button, Divider } from 'antd';
 
 const CommoditySpec = ({
+  isEdit,
   dispatch,
   specUnitList,
   goodsSpecificationList,
@@ -76,6 +77,7 @@ const CommoditySpec = ({
                     <Input
                       placeholder="请输入商品编号"
                       style={{ width: 400 }}
+                      disabled={isEdit}
                       value={goodsSpecificationNo}
                       onChange={e => {
                         goodsSpecificationList[index].goodsSpecificationNo = e.target.value;
