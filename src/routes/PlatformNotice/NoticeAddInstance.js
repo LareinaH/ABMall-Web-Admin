@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import OSS from 'ali-oss';
+import co from 'co';
 import BraftEditor from 'braft-editor';
 import 'braft-editor/dist/braft.css';
 import { connect } from 'dva';
@@ -156,6 +158,34 @@ class NoticeAddInstance extends PureComponent {
           audio: false,
           video: false,
           embed: false,
+        },
+        uploadFn: param => {
+          const { OSS_CONFIG, OSS_PREFIX } = config;
+          const ossClient = new OSS({ ...OSS_CONFIG });
+          const { libraryId, file } = param;
+          const { name } = file;
+          const fileKey = `${libraryId}-${name}`;
+          const objectKey = OSS_PREFIX + OSS_PREFIX_PLATFORM_NOTICE + fileKey;
+          // eslint-disable-next-line func-names
+          co(function*() {
+            yield ossClient.multipartUpload(objectKey, file, {
+              mime: 'image/jpeg',
+              *progress(p) {
+                param.progress(p * 100);
+              },
+            });
+
+            const newAdUrl = `https://${OSS_CONFIG.bucket}.${
+              OSS_CONFIG.region
+            }.aliyuncs.com/${objectKey}`;
+            param.success({
+              url: `${newAdUrl}`,
+            });
+          }).catch(err => {
+            param.error({
+              msg: `upload failed:${err}`,
+            });
+          });
         },
       },
       extendControls: [

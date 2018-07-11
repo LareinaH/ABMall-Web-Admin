@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import OSS from 'ali-oss';
+import co from 'co';
 import moment from 'moment';
 import BraftEditor from 'braft-editor';
 import 'braft-editor/dist/braft.css';
@@ -8,6 +10,7 @@ import NoticeModal from '../NoticeModal';
 import FormLabel from '../../components/MyComponent/FormLabel';
 
 import style from './index.less';
+import config from '../../utils/config';
 
 const { RangePicker } = DatePicker;
 
@@ -131,6 +134,34 @@ class ActivityAddInstance extends PureComponent {
           audio: false,
           video: false,
           embed: false,
+        },
+        uploadFn: param => {
+          const { OSS_CONFIG, OSS_PREFIX, OSS_PREFIX_ACTIVITY } = config;
+          const ossClient = new OSS({ ...OSS_CONFIG });
+          const { libraryId, file } = param;
+          const { name } = file;
+          const fileKey = `${libraryId}-${name}`;
+          const objectKey = OSS_PREFIX + OSS_PREFIX_ACTIVITY + fileKey;
+          // eslint-disable-next-line func-names
+          co(function*() {
+            yield ossClient.multipartUpload(objectKey, file, {
+              mime: 'image/jpeg',
+              *progress(p) {
+                param.progress(p * 100);
+              },
+            });
+
+            const newAdUrl = `https://${OSS_CONFIG.bucket}.${
+              OSS_CONFIG.region
+            }.aliyuncs.com/${objectKey}`;
+            param.success({
+              url: `${newAdUrl}`,
+            });
+          }).catch(err => {
+            param.error({
+              msg: `upload failed:${err}`,
+            });
+          });
         },
       },
       extendControls: [

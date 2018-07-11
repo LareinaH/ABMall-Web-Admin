@@ -12,4 +12,5 @@ export default {
   OSS_PREFIX_GOODS: 'goods/',
   OSS_PREFIX_DESCRIPTION: 'description/',
   OSS_PREFIX_PLATFORM_NOTICE: 'notice/',
+  OSS_PREFIX_ACTIVITY: 'activity/',
 };
