@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { stringify } from 'qs';
 import { connect } from 'dva';
 import {
   Card,
@@ -16,6 +17,10 @@ import {
 } from 'antd';
 import NoticeModal from '../NoticeModal';
 import FormRow from '../../components/MyComponent/FormRow';
+
+import config from '../../utils/config';
+
+const { APIV1 } = config;
 
 const { RangePicker } = DatePicker;
 const { Search } = Input;
@@ -207,6 +212,10 @@ const OrderList = ({ dispatch, loading, orderList }) => {
           { key: 'pageSize', value: pagination.pageSize },
         ],
       });
+
+      dispatch({
+        type: 'orderList/getOrderList',
+      });
     },
   };
 
@@ -304,6 +313,27 @@ const OrderList = ({ dispatch, loading, orderList }) => {
             }}
           >
             重置查询条件
+          </Button>
+          <Button
+            type="primary"
+            style={{ marginLeft: 8 }}
+            icon="export"
+            onClick={() => {
+              const url = `${APIV1}/admin/exportOrder?${stringify({
+                orderStatus,
+                returnsStatus,
+                timeBegin: dateStart.format('YYYY-MM-DD'),
+                timeEnd: dateEnd.format('YYYY-MM-DD'),
+                orderNo,
+              })}`;
+              const aElem = document.createElement('a');
+              aElem.href = url;
+              const evt = document.createEvent('MouseEvents');
+              evt.initEvent('click', true, true);
+              aElem.dispatchEvent(evt);
+            }}
+          >
+            导出订单列表
           </Button>
         </Col>
       </Row>
