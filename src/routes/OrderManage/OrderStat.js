@@ -77,7 +77,7 @@ const OrderStat = ({ dispatch, loading, orderStat }) => {
             <Chart height={500} data={dv} scale={cols} padding={[80, 100, 80, 80]} forceFit>
               <Coord type="theta" radius={1} innerRadius={0.9} />
               <Axis name="percent" />
-              <Legend position="right" offsetY={-window.innerHeight / 2 + 120} offsetX={-100} />
+              <Legend position="bottom" />
               <Tooltip
                 showTitle
                 itemTpl="<li><span style=&quot;background-color:{color};&quot; class=&quot;g2-tooltip-marker&quot;></span>{name}: {value}</li>"

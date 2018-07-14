@@ -44,7 +44,7 @@ const MessageTemplate = ({
         </Row>
       ) : (
         <Card style={cardStyle} title="消息模板设置">
-          <Form layout="inline">
+          <Form hideRequiredMark layout="inline">
             <Row>
               <Col span={24}>
                 <FormItem label="晋级奖励:">
@@ -59,7 +59,7 @@ const MessageTemplate = ({
                     initialValue: getObjectKeyValueOr(PROMOTION_AWARD_1, 'value', ''),
                   })(<Input style={{ width: 400 }} />)}
                 </FormItem>
-                <FormItem label="v*级">
+                <FormItem colon={false} label="v*级">
                   {getFieldDecorator('PROMOTION_AWARD_2', {
                     rules: [
                       {
@@ -70,6 +70,7 @@ const MessageTemplate = ({
                     ],
                     initialValue: getObjectKeyValueOr(PROMOTION_AWARD_2, 'value', ''),
                   })(<Input style={{ width: 400 }} />)}
+                  ****元
                 </FormItem>
               </Col>
             </Row>
@@ -87,7 +88,7 @@ const MessageTemplate = ({
                     initialValue: getObjectKeyValueOr(SHARE_AWARD_1, 'value', ''),
                   })(<Input style={{ width: 400 }} />)}
                 </FormItem>
-                <FormItem label="***元">
+                <FormItem colon={false} label="***元">
                   {getFieldDecorator('SHARE_AWARD_2', {
                     rules: [
                       {
@@ -114,6 +115,7 @@ const MessageTemplate = ({
                     ],
                     initialValue: getObjectKeyValueOr(EXECUTIVE_AWARD, 'value', ''),
                   })(<Input style={{ width: 400 }} />)}
+                  ****元
                 </FormItem>
               </Col>
             </Row>

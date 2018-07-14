@@ -14,11 +14,13 @@ import {
   Alert,
   Modal,
   Radio,
+  Badge,
 } from 'antd';
 import NoticeModal from '../NoticeModal';
 import FormRow from '../../components/MyComponent/FormRow';
 
 import config from '../../utils/config';
+import { addAlignForColumns } from '../../utils/utils';
 
 const { APIV1 } = config;
 
@@ -92,6 +94,15 @@ const OrderList = ({ dispatch, loading, orderList }) => {
     {
       title: '下单时间',
       dataIndex: 'gmtCreate',
+      render: text => {
+        const splitArray = text.split(' ');
+        return (
+          <div style={{ textAlign: 'center' }}>
+            <div>{splitArray[0]}</div>
+            <div>{splitArray[1]}</div>
+          </div>
+        );
+      },
     },
     {
       title: '订单来源',
@@ -99,6 +110,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
     },
     {
       title: '收件联系方式',
+      width: '15%',
       render: (text, record) => (
         <div>
           <div>{`${record.receiverName} ${record.receiverPhone}`}</div>
@@ -134,15 +146,29 @@ const OrderList = ({ dispatch, loading, orderList }) => {
     {
       title: '补货状态',
       render: (text, record) => {
-        return returnsStatusMapList
+        const st = returnsStatusMapList
           .filter(x => x.value === record.returnStatus)
           .map(x => x.label)
           .join(',');
+        if (st === '正常') {
+          return <Badge status="success" text={st} />;
+        } else {
+          return <Badge status="warning" text={st} />;
+        }
       },
     },
     {
       title: '订单变更时间',
       dataIndex: 'gmtModify',
+      render: text => {
+        const splitArray = text.split(' ');
+        return (
+          <div style={{ textAlign: 'center' }}>
+            <div>{splitArray[0]}</div>
+            <div>{splitArray[1]}</div>
+          </div>
+        );
+      },
     },
     {
       title: '订单会员手机号',
@@ -183,6 +209,8 @@ const OrderList = ({ dispatch, loading, orderList }) => {
       ),
     },
   ];
+
+  addAlignForColumns(columns, 'center');
 
   const showTotal = totalRecord => {
     return `共 ${totalRecord} 条数据`;
