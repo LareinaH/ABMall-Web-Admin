@@ -4,7 +4,7 @@ import { parse } from 'query-string';
 import { routerRedux } from 'dva/router';
 import commonModel from './common';
 import { getActivityDetail, addActivity, updateActivity } from '../services/activityManage';
-import { getGoodsList } from '../services/commodityAdd';
+import { getGoodsListPage } from '../services/commodityAdd';
 
 const { pageModel } = commonModel;
 
@@ -29,6 +29,7 @@ export default modelExtend(pageModel, {
       { item: 'ACTIVITY_AWARD_V2', value: '0' },
       { item: 'ACTIVITY_AWARD_V3', value: '0' },
     ],
+    showAddCommodityModal: false,
   },
 
   subscriptions: {
@@ -39,6 +40,8 @@ export default modelExtend(pageModel, {
           dispatch({
             type: 'setDatas',
             payload: [
+              { key: 'noticeVisible', value: false },
+              { key: 'noticeInfo', value: '' },
               { key: 'id', value: undefined },
               { key: 'activityName', value: undefined },
               { key: 'activityBrief', value: undefined },
@@ -61,6 +64,7 @@ export default modelExtend(pageModel, {
                   { item: 'ACTIVITY_AWARD_V3', value: '0' },
                 ],
               },
+              { key: 'showAddCommodityModal', value: false },
             ],
           });
 
@@ -178,20 +182,46 @@ export default modelExtend(pageModel, {
         });
       }
     },
-    *getGoodsList(_, { call, put }) {
-      const response = yield call(getGoodsList);
+    *getGoodsList({ selectFirst }, { call, put }) {
+      const response = yield call(getGoodsListPage, {
+        pageNum: 1,
+        pageSize: 999,
+        conditions: {
+          isOnSell: true,
+        },
+      });
 
       if (response.code === 200) {
         yield put({
           type: 'setData',
           payload: {
             key: 'goodsList',
-            value: response.data,
+            value: response.data.list,
           },
         });
+
+        if (selectFirst) {
+          yield put({
+            type: 'selectFirstGoodsId',
+          });
+        }
       }
     },
   },
 
-  reducers: {},
+  reducers: {
+    selectFirstGoodsId(state) {
+      const { goodsList } = state;
+      if (goodsList && goodsList.length > 0) {
+        return {
+          ...state,
+          shopActivityGoods: {
+            goodsId: goodsList[0].id,
+          },
+        };
+      }
+
+      return state;
+    },
+  },
 });

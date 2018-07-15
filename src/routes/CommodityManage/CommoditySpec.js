@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign,no-param-reassign,react/no-array-index-key */
 import React from 'react';
+import moment from 'moment';
 import { Row, Col, Input, Select, Checkbox, InputNumber, Icon, Button, Divider } from 'antd';
+import { getRandomIntWithDigit, getRandomAlphabet } from '../../utils/utils';
 
 const CommoditySpec = ({
   isEdit,
@@ -75,10 +77,15 @@ const CommoditySpec = ({
                   <Col {...formProps}>
                     {getFormLabel('商品编号')}
                     <Input
-                      placeholder="请输入商品编号"
+                      placeholder="商品编号"
                       style={{ width: 400 }}
-                      disabled={isEdit}
-                      value={goodsSpecificationNo}
+                      disabled
+                      value={
+                        isEdit
+                          ? goodsSpecificationNo
+                          : `ydls${moment().format('YYYYMMDDHHmmss')}${stock ||
+                              0}${getRandomAlphabet()}${getRandomIntWithDigit(10000, 4)}`
+                      }
                       onChange={e => {
                         goodsSpecificationList[index].goodsSpecificationNo = e.target.value;
                         dispatch({
@@ -209,7 +216,9 @@ const CommoditySpec = ({
             price: 0.0,
             preferentialPrice: 0.0,
             isOnSell: false,
-            goodsSpecificationNo: undefined,
+            goodsSpecificationNo: `ydls${moment().format(
+              'YYYYMMDDHHmmss'
+            )}0${getRandomAlphabet()}${getRandomIntWithDigit(10000, 4)}`,
           });
 
           dispatch({

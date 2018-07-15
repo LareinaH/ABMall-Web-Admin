@@ -7,7 +7,7 @@ import PicUpload from './PicUpload';
 import NoticeModal from '../NoticeModal';
 import config from '../../utils/config';
 
-const CommodityAdd = ({ dispatch, loading, commodityAdd }) => {
+const CommodityAdd = ({ dispatch, loading, commodityAdd, redirect }) => {
   const { goodsVo, categoryList, specUnitList } = commodityAdd;
   const {
     goodsName,
@@ -262,6 +262,9 @@ const CommodityAdd = ({ dispatch, loading, commodityAdd }) => {
               } else {
                 dispatch({
                   type: 'commodityAdd/addCommodity',
+                  payload: {
+                    redirect,
+                  },
                 });
               }
             }}

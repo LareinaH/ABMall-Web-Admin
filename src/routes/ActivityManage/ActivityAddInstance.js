@@ -5,9 +5,10 @@ import moment from 'moment';
 import BraftEditor from 'braft-editor';
 import 'braft-editor/dist/braft.css';
 import { connect } from 'dva';
-import { Card, Row, Col, Input, Button, DatePicker, Select, InputNumber } from 'antd';
+import { Card, Row, Col, Input, Button, DatePicker, Select, InputNumber, Modal } from 'antd';
 import NoticeModal from '../NoticeModal';
 import FormLabel from '../../components/MyComponent/FormLabel';
+import CommodityAdd from '../CommodityManage/CommodityAdd';
 
 import style from './index.less';
 import config from '../../utils/config';
@@ -25,7 +26,7 @@ class ActivityAddInstance extends PureComponent {
   }
 
   render() {
-    const { dispatch, loading, activityAdd } = this.props;
+    const { dispatch, loading, activityAdd, commodityAdd } = this.props;
     const {
       id,
       activityName,
@@ -34,6 +35,7 @@ class ActivityAddInstance extends PureComponent {
       activityDesc,
       goodsList,
       activityBrief,
+      showAddCommodityModal,
     } = activityAdd;
 
     const { shopActivityGoods, shopActivityConfigList } = activityAdd;
@@ -251,10 +253,51 @@ class ActivityAddInstance extends PureComponent {
               >
                 {goodsList.map(item => (
                   <Select.Option key={item.id.toString()}>
-                    {`${item.breif}(${item.id})`}
+                    {`${item.goodsName}(${item.id})`}
                   </Select.Option>
                 ))}
               </Select>
+              <Button
+                type="primary"
+                style={{ marginLeft: 8 }}
+                onClick={() => {
+                  this.props.dispatch({
+                    type: 'commodityAdd/initPageParam',
+                  });
+
+                  this.props.dispatch({
+                    type: 'commodityAdd/getCategoryList',
+                  });
+
+                  this.props.dispatch({
+                    type: 'commodityAdd/getSpecUnitList',
+                  });
+
+                  this.props.dispatch({
+                    type: 'activityAdd/setData',
+                    payload: {
+                      key: 'showAddCommodityModal',
+                      value: true,
+                    },
+                  });
+                }}
+              >
+                添加商品
+              </Button>
+              <a
+                style={{ marginLeft: 8, lineHeight: '32px' }}
+                href="/commodityManage/commodityAdd"
+                target="_blank"
+              >
+                去添加商品页
+              </a>
+              <a
+                style={{ marginLeft: 8, lineHeight: '32px' }}
+                href="/commodityManage/commodityList"
+                target="_blank"
+              >
+                去商品列表页
+              </a>
             </Col>
           </Row>
           <Row>
@@ -412,6 +455,29 @@ class ActivityAddInstance extends PureComponent {
             </Col>
           </Row>
         </Card>
+        <Modal
+          title="添加分类"
+          width="80%"
+          visible={showAddCommodityModal}
+          onCancel={() => {
+            this.props.dispatch({
+              type: 'activityAdd/setData',
+              payload: {
+                key: 'showAddCommodityModal',
+                value: false,
+              },
+            });
+          }}
+          destroyOnClose
+          footer={[]}
+        >
+          <CommodityAdd
+            dispatch={dispatch}
+            loading={loading}
+            commodityAdd={commodityAdd}
+            redirect={false}
+          />
+        </Modal>
         <NoticeModal
           title="注意"
           dispatch={dispatch}

@@ -143,9 +143,10 @@ export default modelExtend(pageModel, {
         });
       }
     },
-    *addCommodity(_, { call, put, select }) {
+    *addCommodity({ payload }, { call, put, select }) {
       const { goodsVo } = yield select(state => state.commodityAdd);
       const { images, description } = goodsVo;
+      const { redirect } = payload;
 
       const copiedGoodsVo = JSON.parse(JSON.stringify(goodsVo));
 
@@ -157,13 +158,29 @@ export default modelExtend(pageModel, {
       const response = yield call(addGoods, copiedGoodsVo);
 
       if (response.code === 200) {
-        yield put({
-          type: 'showNotice',
-          payload: '添加商品成功',
-        });
-
         // 跳转到商品列表页
-        yield put(routerRedux.push('/commodityManage/commodityList'));
+        if (redirect === undefined || redirect) {
+          yield put({
+            type: 'showNotice',
+            payload: '添加商品成功',
+          });
+
+          yield put(routerRedux.push('/commodityManage/commodityList'));
+        } else {
+          // 不跳转的时候关闭调用方的modal
+          yield put({
+            type: 'activityAdd/setData',
+            payload: {
+              key: 'showAddCommodityModal',
+              value: false,
+            },
+          });
+
+          yield put({
+            type: 'activityAdd/getGoodsList',
+            selectFirst: true,
+          });
+        }
       } else {
         yield put({
           type: 'showNotice',
@@ -236,6 +253,34 @@ export default modelExtend(pageModel, {
       return {
         ...state,
         goodsVo,
+      };
+    },
+    initPageParam(state) {
+      return {
+        ...state,
+        categoryList: [],
+        specUnitList: [],
+        noticeVisible: false,
+        noticeInfo: '',
+        goodsVo: {
+          goodsName: undefined,
+          groupId: undefined,
+          images: [
+            {
+              adUrl: '',
+              uploading: false,
+            },
+          ],
+          virtualSalesAmount: 0,
+          description: [
+            {
+              adUrl: '',
+              uploading: false,
+            },
+          ],
+          goodsSpecificationList: [],
+          breif: undefined,
+        },
       };
     },
   },

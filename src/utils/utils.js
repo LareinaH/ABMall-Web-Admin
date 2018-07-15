@@ -173,6 +173,7 @@ export function getQueryPath(path = '', query = {}) {
   return path;
 }
 
+// 为antd table 列增加对齐参数
 export function addAlignForColumns(columns, align) {
   columns.forEach(item => {
     // eslint-disable-next-line no-param-reassign
@@ -182,4 +183,19 @@ export function addAlignForColumns(columns, align) {
 
 export function getObjectKeyValueOr(obj, key, defaultValue) {
   return obj ? obj[key] : defaultValue;
+}
+
+export function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+export function getRandomIntWithDigit(max, digit) {
+  const r = getRandomInt(max);
+  return r.toString().padStart(digit, '0');
+}
+
+export function getRandomAlphabet() {
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  const idx = Math.floor(Math.random() * Math.floor(26));
+  return alphabet[idx];
 }

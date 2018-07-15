@@ -134,7 +134,7 @@ export const getRouterData = app => {
       ),
     },
     '/activityManage/activityAdd': {
-      component: dynamicWrapper(app, ['activityAdd'], () =>
+      component: dynamicWrapper(app, ['activityAdd', 'commodityAdd'], () =>
         import('../routes/ActivityManage/ActivityAddInstance')
       ),
     },
