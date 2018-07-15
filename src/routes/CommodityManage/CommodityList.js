@@ -20,6 +20,48 @@ const CommodityList = ({ dispatch, loading, commodityList, location }) => {
     });
   };
 
+  const switchGoodsOnSale = (goodsId, isOnSale) => {
+    dispatch({
+      type: 'commodityList/setGoodsOnSaleStatus',
+      payload: {
+        goodsId,
+        isOnSale: isOnSale ? 1 : 0,
+      },
+    });
+  };
+
+  const getOnAndOffOper = (isOnSale, goodsId) => {
+    if (isOnSale) {
+      return (
+        <span>
+          <Divider type="vertical" />
+          <Popconfirm
+            title="确定上架该商品吗?"
+            onConfirm={switchGoodsOnSale.bind(null, goodsId, isOnSale)}
+            okText="确定"
+            cancelText="取消"
+          >
+            <a>下架</a>
+          </Popconfirm>
+        </span>
+      );
+    } else {
+      return (
+        <div>
+          <Divider type="vertical" />
+          <Popconfirm
+            title="确定上架该商品吗?"
+            onConfirm={switchGoodsOnSale.bind(null, goodsId, isOnSale)}
+            okText="确定"
+            cancelText="取消"
+          >
+            <a>上架</a>
+          </Popconfirm>
+        </div>
+      );
+    }
+  };
+
   const columns = [
     {
       title: '序号',
@@ -83,6 +125,7 @@ const CommodityList = ({ dispatch, loading, commodityList, location }) => {
           >
             <a>删除</a>
           </Popconfirm>
+          {getOnAndOffOper(record.isOnSell)}
         </div>
       ),
     },

@@ -46,3 +46,10 @@ export async function getSpecUnitList() {
 export async function getGoodsList() {
   return request(`${config.APIV1}/admin/goods/queryList`);
 }
+
+export async function setGoodsOnSaleStatus(params) {
+  return request(`${config.APIV1}/admin/goods/setGoodsOnSaleStatus`, {
+    method: 'POST',
+    body: params,
+  });
+}

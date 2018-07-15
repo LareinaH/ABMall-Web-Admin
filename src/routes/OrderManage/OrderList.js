@@ -405,7 +405,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
           });
         }}
         destroyOnClose
-        width="30%"
+        width="50%"
         confirmLoading={loading.effects['orderList/shipOrReplenish']}
       >
         <FormRow label="订单号" labelSpan={4} contentSpan={6}>
@@ -426,6 +426,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
           >
             <RadioButton value="发货">发货</RadioButton>
             <RadioButton value="补货">补货</RadioButton>
+            <RadioButton value="系统取消">系统取消</RadioButton>
           </RadioGroup>
         </FormRow>
         <FormRow label="物流公司" labelSpan={4} contentSpan={6}>

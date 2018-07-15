@@ -1,6 +1,6 @@
 import modelExtend from 'dva-model-extend';
 import commonModel from './common';
-import { getGoodsListPage, deleteGoods } from '../services/commodityAdd';
+import { getGoodsListPage, deleteGoods, setGoodsOnSaleStatus } from '../services/commodityAdd';
 import { getCategoryList } from '../services/commodityManage';
 
 const { pageModel } = commonModel;
@@ -134,6 +134,25 @@ export default modelExtend(pageModel, {
         yield put({
           type: 'showNotice',
           payload: `删除商品失败:${response.message}`,
+        });
+      }
+    },
+    *setGoodsOnSaleStatus({ payload }, { call, put }) {
+      const response = yield call(setGoodsOnSaleStatus, payload);
+
+      if (response.code === 200) {
+        yield put({
+          type: 'showNotice',
+          payload: '操作成功',
+        });
+
+        yield put({
+          type: 'getGoodsListPage',
+        });
+      } else {
+        yield put({
+          type: 'showNotice',
+          payload: `操作失败:${response.message}`,
         });
       }
     },
