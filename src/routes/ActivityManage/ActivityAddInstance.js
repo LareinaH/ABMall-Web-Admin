@@ -282,7 +282,7 @@ class ActivityAddInstance extends PureComponent {
                   });
                 }}
               >
-                添加商品
+                创建商品
               </Button>
               <a
                 style={{ marginLeft: 8, lineHeight: '32px' }}
