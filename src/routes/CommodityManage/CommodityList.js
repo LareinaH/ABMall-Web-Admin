@@ -36,7 +36,7 @@ const CommodityList = ({ dispatch, loading, commodityList, location }) => {
         <span>
           <Divider type="vertical" />
           <Popconfirm
-            title="确定上架该商品吗?"
+            title="确定下架该商品吗?"
             onConfirm={switchGoodsOnSale.bind(null, goodsId, isOnSale)}
             okText="确定"
             cancelText="取消"
