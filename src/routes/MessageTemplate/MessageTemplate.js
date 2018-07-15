@@ -18,6 +18,9 @@ const MessageTemplate = ({
     SHARE_AWARD_1,
     SHARE_AWARD_2,
     EXECUTIVE_AWARD,
+
+    REPURCHASE_AWARD_1,
+    REPURCHASE_AWARD_2,
   } = messageTemplate.keyPairs;
   const saveKeyPairs = () => {
     validateFields((err, values) => {
@@ -43,96 +46,130 @@ const MessageTemplate = ({
           </Col>
         </Row>
       ) : (
-        <Card style={cardStyle} title="消息模板设置">
-          <Form hideRequiredMark layout="inline">
-            <Row>
-              <Col span={24}>
-                <FormItem label="晋级奖励:">
-                  {getFieldDecorator('PROMOTION_AWARD_1', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '模板内容不能为空,最大长度为100',
-                        max: 100,
-                      },
-                    ],
-                    initialValue: getObjectKeyValueOr(PROMOTION_AWARD_1, 'value', ''),
-                  })(<Input style={{ width: 400 }} />)}
-                </FormItem>
-                <FormItem colon={false} label="v*级">
-                  {getFieldDecorator('PROMOTION_AWARD_2', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '模板内容不能为空,最大长度为100',
-                        max: 100,
-                      },
-                    ],
-                    initialValue: getObjectKeyValueOr(PROMOTION_AWARD_2, 'value', ''),
-                  })(<Input style={{ width: 400 }} />)}
-                  ****元
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <FormItem label="分享奖励:">
-                  {getFieldDecorator('SHARE_AWARD_1', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '模板内容不能为空,最大长度为100',
-                        max: 100,
-                      },
-                    ],
-                    initialValue: getObjectKeyValueOr(SHARE_AWARD_1, 'value', ''),
-                  })(<Input style={{ width: 400 }} />)}
-                </FormItem>
-                <FormItem colon={false} label="***元">
-                  {getFieldDecorator('SHARE_AWARD_2', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '模板内容不能为空,最大长度为100',
-                        max: 100,
-                      },
-                    ],
-                    initialValue: getObjectKeyValueOr(SHARE_AWARD_2, 'value', ''),
-                  })(<Input style={{ width: 400 }} />)}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <FormItem label="高管薪酬:">
-                  {getFieldDecorator('EXECUTIVE_AWARD', {
-                    rules: [
-                      {
-                        required: true,
-                        message: '模板内容不能为空,最大长度为100',
-                        max: 100,
-                      },
-                    ],
-                    initialValue: getObjectKeyValueOr(EXECUTIVE_AWARD, 'value', ''),
-                  })(<Input style={{ width: 400 }} />)}
-                  ****元
-                </FormItem>
-              </Col>
-            </Row>
-            <Row type="flex" justify="center">
-              <Col span={2}>
-                <Button
-                  loading={loading.effects['messageTemplate/saveKeyPairs']}
-                  type="primary"
-                  icon="save"
-                  onClick={saveKeyPairs}
-                >
-                  保存
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </Card>
+        <div>
+          <Card style={cardStyle} title="消息模板设置">
+            <Form hideRequiredMark layout="inline">
+              <Row>
+                <Col span={24}>
+                  <FormItem label="晋级奖励:">
+                    {getFieldDecorator('PROMOTION_AWARD_1', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '模板内容不能为空,最大长度为100',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(PROMOTION_AWARD_1, 'value', ''),
+                    })(<Input style={{ width: 400 }} />)}
+                  </FormItem>
+                  <FormItem colon={false} label="v*级">
+                    {getFieldDecorator('PROMOTION_AWARD_2', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '模板内容不能为空,最大长度为100',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(PROMOTION_AWARD_2, 'value', ''),
+                    })(<Input style={{ width: 400 }} />)}
+                    ****元
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
+                  <FormItem label="分享奖励:">
+                    {getFieldDecorator('SHARE_AWARD_1', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '模板内容不能为空,最大长度为100',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(SHARE_AWARD_1, 'value', ''),
+                    })(<Input style={{ width: 400 }} />)}
+                  </FormItem>
+                  <FormItem colon={false} label="***元">
+                    {getFieldDecorator('SHARE_AWARD_2', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '模板内容不能为空,最大长度为100',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(SHARE_AWARD_2, 'value', ''),
+                    })(<Input style={{ width: 400 }} />)}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
+                  <FormItem label="高管薪酬:">
+                    {getFieldDecorator('EXECUTIVE_AWARD', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '模板内容不能为空,最大长度为100',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(EXECUTIVE_AWARD, 'value', ''),
+                    })(<Input style={{ width: 400 }} />)}
+                    ****元
+                  </FormItem>
+                </Col>
+              </Row>
+            </Form>
+          </Card>
+          <Card style={cardStyle} title="复购消息模板设置">
+            <Form hideRequiredMark layout="inline">
+              <Row>
+                <Col span={24}>
+                  <FormItem label="分享奖励:">
+                    {getFieldDecorator('REPURCHASE_AWARD_1', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '模板内容不能为空,最大长度为100',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(REPURCHASE_AWARD_1, 'value', ''),
+                    })(<Input style={{ width: 400 }} />)}
+                  </FormItem>
+                  <FormItem colon={false} label="***元">
+                    {getFieldDecorator('REPURCHASE_AWARD_2', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '模板内容不能为空,最大长度为100',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(REPURCHASE_AWARD_2, 'value', ''),
+                    })(<Input style={{ width: 400 }} />)}
+                  </FormItem>
+                </Col>
+              </Row>
+            </Form>
+          </Card>
+          <Row type="flex" justify="center">
+            <Col span={2}>
+              <Button
+                loading={loading.effects['messageTemplate/saveKeyPairs']}
+                type="primary"
+                icon="save"
+                onClick={saveKeyPairs}
+              >
+                保存
+              </Button>
+            </Col>
+          </Row>
+        </div>
       )}
       <NoticeModal
         title="注意"

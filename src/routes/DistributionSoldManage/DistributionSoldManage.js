@@ -16,9 +16,8 @@ const DistributionSoldManage = ({
     PROMOTION_AGENT_TIMES,
     PROMOTION_AGENT_MONEY,
     PROMOTION_V1_SHARE_PEOPLE,
-    PROMOTION_V1_MONEY,
     PROMOTION_V2_SHARE_PEOPLE,
-    PROMOTION_V2_MONEY,
+    PROMOTION_V2_SHARE_V1_PEOPLE,
     PROMOTION_V3_SHARE_PEOPLE,
     PROMOTION_V3_MONEY,
 
@@ -36,9 +35,10 @@ const DistributionSoldManage = ({
     EXECUTIVE_AWARD_V2,
     EXECUTIVE_AWARD_V3,
 
-    V3_AWARD_SHARE_PEOPLE,
-    V3_AWARD_TOTLE_AWARD,
-    V3_AWARD_MONEY,
+    REPURCHASE_SELF,
+    REPURCHASE_FIRST,
+    REPURCHASE_SECOND,
+    REPURCHASE_THIRD,
   } = distributionSoldManage.keyPairs;
 
   const saveKeyPairs = () => {
@@ -82,12 +82,12 @@ const DistributionSoldManage = ({
                       initialValue: getObjectKeyValueOr(PROMOTION_AGENT_TIMES, 'value', ''),
                     })(<Input addonAfter="次" style={{ width: 400 }} />)}
                   </FormItem>
-                  <FormItem label="代理人累计购物额度">
+                  <FormItem label="代言人累计购物额度">
                     {getFieldDecorator('PROMOTION_AGENT_MONEY', {
                       rules: [
                         {
                           required: true,
-                          message: '请填写代理人累计购物额度',
+                          message: '请填写代言人累计购物额度',
                           max: 100,
                         },
                       ],
@@ -100,59 +100,47 @@ const DistributionSoldManage = ({
             <Row>
               <Col span={24}>
                 <Form layout="inline">
-                  <FormItem label="V1直接分享人数">
+                  <FormItem label="V1直接分享代言人数">
                     {getFieldDecorator('PROMOTION_V1_SHARE_PEOPLE', {
                       rules: [
                         {
                           required: true,
-                          message: '请填写V1直接分享人数',
+                          message: '请填写V1直接分享代言人数',
                           max: 100,
                         },
                       ],
                       initialValue: getObjectKeyValueOr(PROMOTION_V1_SHARE_PEOPLE, 'value', ''),
                     })(<Input addonAfter="人" style={{ width: 400 }} />)}
                   </FormItem>
-                  <FormItem label="V1团队购物额">
-                    {getFieldDecorator('PROMOTION_V1_MONEY', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '请填写V1团队购物额',
-                          max: 100,
-                        },
-                      ],
-                      initialValue: getObjectKeyValueOr(PROMOTION_V1_MONEY, 'value', ''),
-                    })(<Input addonAfter="元" style={{ width: 400 }} />)}
-                  </FormItem>
                 </Form>
               </Col>
             </Row>
             <Row>
               <Col span={24}>
                 <Form layout="inline">
-                  <FormItem label="V2直接分享人数">
+                  <FormItem label="V2直接分享代言人数">
                     {getFieldDecorator('PROMOTION_V2_SHARE_PEOPLE', {
                       rules: [
                         {
                           required: true,
-                          message: '请填写V2直接分享人数',
+                          message: '请填写V2直接分享代言人数',
                           max: 100,
                         },
                       ],
                       initialValue: getObjectKeyValueOr(PROMOTION_V2_SHARE_PEOPLE, 'value', ''),
                     })(<Input addonAfter="人" style={{ width: 400 }} />)}
                   </FormItem>
-                  <FormItem label="V2团队购物额">
-                    {getFieldDecorator('PROMOTION_V2_MONEY', {
+                  <FormItem label="团队包含V1人数">
+                    {getFieldDecorator('PROMOTION_V2_SHARE_V1_PEOPLE', {
                       rules: [
                         {
                           required: true,
-                          message: '请填写V2团队购物额',
+                          message: '请填写团队包含V1人数',
                           max: 100,
                         },
                       ],
-                      initialValue: getObjectKeyValueOr(PROMOTION_V2_MONEY, 'value', ''),
-                    })(<Input addonAfter="元" style={{ width: 400 }} />)}
+                      initialValue: getObjectKeyValueOr(PROMOTION_V2_SHARE_V1_PEOPLE, 'value', ''),
+                    })(<Input addonAfter="人" style={{ width: 400 }} />)}
                   </FormItem>
                 </Form>
               </Col>
@@ -160,24 +148,24 @@ const DistributionSoldManage = ({
             <Row>
               <Col span={24}>
                 <Form layout="inline">
-                  <FormItem label="V3直接分享人数">
+                  <FormItem label="V3直接分享代言人数">
                     {getFieldDecorator('PROMOTION_V3_SHARE_PEOPLE', {
                       rules: [
                         {
                           required: true,
-                          message: '请填写V3直接分享人数',
+                          message: '请填写V3直接分享代言人数',
                           max: 100,
                         },
                       ],
                       initialValue: getObjectKeyValueOr(PROMOTION_V3_SHARE_PEOPLE, 'value', ''),
                     })(<Input addonAfter="人" style={{ width: 400 }} />)}
                   </FormItem>
-                  <FormItem label="V3团队购物额">
+                  <FormItem label="V3获得分润额度">
                     {getFieldDecorator('PROMOTION_V3_MONEY', {
                       rules: [
                         {
                           required: true,
-                          message: '请填写V3团队购物额',
+                          message: '请填写V3获得分润额度',
                           max: 100,
                         },
                       ],
@@ -188,7 +176,7 @@ const DistributionSoldManage = ({
               </Col>
             </Row>
           </Card>
-          <Card title="分享奖励" style={cardStyle}>
+          <Card title="分享奖励(仅限被分享白户第一次下单时，给予奖励)" style={cardStyle}>
             <Form layout="inline">
               <Row>
                 <Col span={24}>
@@ -204,6 +192,22 @@ const DistributionSoldManage = ({
                       initialValue: getObjectKeyValueOr(SHARE_AWARD_WHITE, 'value', ''),
                     })(<Input addonAfter="%" style={{ width: 400 }} />)}
                   </FormItem>
+                  <FormItem label="代言人分享奖励">
+                    {getFieldDecorator('SHARE_AWARD_AGENT', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '请填写代言人分享奖励',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(SHARE_AWARD_AGENT, 'value', ''),
+                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
                   <FormItem label="V1分享奖励">
                     {getFieldDecorator('SHARE_AWARD_V1', {
                       rules: [
@@ -214,22 +218,6 @@ const DistributionSoldManage = ({
                         },
                       ],
                       initialValue: getObjectKeyValueOr(SHARE_AWARD_V1, 'value', ''),
-                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row>
-                <Col span={24}>
-                  <FormItem label="代理人分享奖励">
-                    {getFieldDecorator('SHARE_AWARD_AGENT', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '请填写代理人分享奖励',
-                          max: 100,
-                        },
-                      ],
-                      initialValue: getObjectKeyValueOr(SHARE_AWARD_AGENT, 'value', ''),
                     })(<Input addonAfter="%" style={{ width: 400 }} />)}
                   </FormItem>
                   <FormItem label="V2分享奖励">
@@ -278,7 +266,7 @@ const DistributionSoldManage = ({
                         },
                       ],
                       initialValue: getObjectKeyValueOr(PROMOTION_AWARD_V1, 'value', ''),
-                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
+                    })(<Input addonAfter="元" style={{ width: 400 }} />)}
                   </FormItem>
                 </Col>
               </Row>
@@ -294,7 +282,7 @@ const DistributionSoldManage = ({
                         },
                       ],
                       initialValue: getObjectKeyValueOr(PROMOTION_AWARD_V2, 'value', ''),
-                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
+                    })(<Input addonAfter="元" style={{ width: 400 }} />)}
                   </FormItem>
                 </Col>
               </Row>
@@ -310,6 +298,66 @@ const DistributionSoldManage = ({
                         },
                       ],
                       initialValue: getObjectKeyValueOr(PROMOTION_AWARD_V3, 'value', ''),
+                    })(<Input addonAfter="元" style={{ width: 400 }} />)}
+                  </FormItem>
+                </Col>
+              </Row>
+            </Form>
+          </Card>
+          <Card title="复购奖励" style={cardStyle}>
+            <Form layout="inline">
+              <Row>
+                <Col span={24}>
+                  <FormItem label="被分享用户">
+                    {getFieldDecorator('REPURCHASE_SELF', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '请填写被分享用户',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(REPURCHASE_SELF, 'value', ''),
+                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
+                  </FormItem>
+                  <FormItem label="被分享用户上级">
+                    {getFieldDecorator('REPURCHASE_FIRST', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '请填写被分享用户上级',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(REPURCHASE_FIRST, 'value', ''),
+                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
+                  </FormItem>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
+                  <FormItem label="被分享用户间接上级">
+                    {getFieldDecorator('REPURCHASE_SECOND', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '请填写被分享用户间接上级',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(REPURCHASE_SECOND, 'value', ''),
+                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
+                  </FormItem>
+                  <FormItem label="被分享用户次间接上级">
+                    {getFieldDecorator('REPURCHASE_THIRD', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '请填写被分享用户次间接上级',
+                          max: 100,
+                        },
+                      ],
+                      initialValue: getObjectKeyValueOr(REPURCHASE_THIRD, 'value', ''),
                     })(<Input addonAfter="%" style={{ width: 400 }} />)}
                   </FormItem>
                 </Col>
@@ -362,58 +410,6 @@ const DistributionSoldManage = ({
                         },
                       ],
                       initialValue: getObjectKeyValueOr(EXECUTIVE_AWARD_V3, 'value', ''),
-                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
-                  </FormItem>
-                </Col>
-              </Row>
-            </Form>
-          </Card>
-          <Card title="V3额外晋级奖励" style={cardStyle}>
-            <Form layout="inline">
-              <Row>
-                <Col span={24}>
-                  <FormItem label="V3直接再分享人数">
-                    {getFieldDecorator('V3_AWARD_SHARE_PEOPLE', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '请填写V3直接再分享人数',
-                          max: 100,
-                        },
-                      ],
-                      initialValue: getObjectKeyValueOr(V3_AWARD_SHARE_PEOPLE, 'value', ''),
-                    })(<Input addonAfter="人" style={{ width: 400 }} />)}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row>
-                <Col span={24}>
-                  <FormItem label="V3累计收入（分享+高薪酬）">
-                    {getFieldDecorator('V3_AWARD_TOTLE_AWARD', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '请填写V3累计收入',
-                          max: 100,
-                        },
-                      ],
-                      initialValue: getObjectKeyValueOr(V3_AWARD_TOTLE_AWARD, 'value', ''),
-                    })(<Input addonAfter="%" style={{ width: 400 }} />)}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row>
-                <Col span={24}>
-                  <FormItem label="V3享有额外奖励">
-                    {getFieldDecorator('V3_AWARD_MONEY', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '请填写V3享有额外奖励',
-                          max: 100,
-                        },
-                      ],
-                      initialValue: getObjectKeyValueOr(V3_AWARD_MONEY, 'value', ''),
                     })(<Input addonAfter="%" style={{ width: 400 }} />)}
                   </FormItem>
                 </Col>
