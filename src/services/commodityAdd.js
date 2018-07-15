@@ -48,8 +48,7 @@ export async function getGoodsList() {
 }
 
 export async function setGoodsOnSaleStatus(params) {
-  return request(`${config.APIV1}/admin/goods/setGoodsOnSaleStatus`, {
+  return request(`${config.APIV1}/admin/goods/setGoodsOnSaleStatus?${stringify(params)}`, {
     method: 'POST',
-    body: params,
   });
 }

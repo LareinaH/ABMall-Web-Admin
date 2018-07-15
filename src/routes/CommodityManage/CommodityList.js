@@ -25,7 +25,7 @@ const CommodityList = ({ dispatch, loading, commodityList, location }) => {
       type: 'commodityList/setGoodsOnSaleStatus',
       payload: {
         goodsId,
-        isOnSale: isOnSale ? 1 : 0,
+        isOnSale,
       },
     });
   };
@@ -37,7 +37,7 @@ const CommodityList = ({ dispatch, loading, commodityList, location }) => {
           <Divider type="vertical" />
           <Popconfirm
             title="确定下架该商品吗?"
-            onConfirm={switchGoodsOnSale.bind(null, goodsId, isOnSale)}
+            onConfirm={switchGoodsOnSale.bind(null, goodsId, 0)}
             okText="确定"
             cancelText="取消"
           >
@@ -47,17 +47,17 @@ const CommodityList = ({ dispatch, loading, commodityList, location }) => {
       );
     } else {
       return (
-        <div>
+        <span>
           <Divider type="vertical" />
           <Popconfirm
             title="确定上架该商品吗?"
-            onConfirm={switchGoodsOnSale.bind(null, goodsId, isOnSale)}
+            onConfirm={switchGoodsOnSale.bind(null, goodsId, 1)}
             okText="确定"
             cancelText="取消"
           >
             <a>上架</a>
           </Popconfirm>
-        </div>
+        </span>
       );
     }
   };
@@ -125,7 +125,7 @@ const CommodityList = ({ dispatch, loading, commodityList, location }) => {
           >
             <a>删除</a>
           </Popconfirm>
-          {getOnAndOffOper(record.isOnSell)}
+          {getOnAndOffOper(record.isOnSell, record.id)}
         </div>
       ),
     },
