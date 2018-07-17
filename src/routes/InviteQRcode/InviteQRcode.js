@@ -6,7 +6,7 @@ import InviteQRcodeSingle from './InviteQRcodeSingle';
 
 const InviteQRcode = ({ dispatch, loading, inviteQRcode }) => {
   const { invitingCodeList } = inviteQRcode;
-  const titleList = ['V1背景图', 'V2背景图', 'V3背景图', '代理人'];
+  const titleList = ['小白背景图', '代言人背景图','V1背景图', 'V2背景图', 'V3背景图'];
 
   const getCardList = () => {
     return invitingCodeList.map((adItem, index) => {
