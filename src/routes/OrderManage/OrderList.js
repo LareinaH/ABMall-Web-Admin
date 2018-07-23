@@ -123,6 +123,14 @@ const OrderList = ({ dispatch, loading, orderList }) => {
       ),
     },
     {
+      title: '商品详情',
+      render: (text, record) => {
+        return `${record.goodsSpecificationNo},${record.goodName},${
+          record.goodsSpecificationName
+        } * ${record.goodNum}`;
+      },
+    },
+    {
       title: '实付金额',
       dataIndex: 'totalMoney',
     },
