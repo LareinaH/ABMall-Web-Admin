@@ -157,23 +157,23 @@ const OrderList = ({ dispatch, loading, orderList }) => {
         }
       },
     },
-    {
-      title: '订单变更时间',
-      dataIndex: 'gmtModify',
-      render: text => {
-        const splitArray = text.split(' ');
-        return (
-          <div style={{ textAlign: 'center' }}>
-            <div>{splitArray[0]}</div>
-            <div>{splitArray[1]}</div>
-          </div>
-        );
-      },
-    },
-    {
-      title: '订单会员手机号',
-      dataIndex: 'memberPhone',
-    },
+    // {
+    //   title: '订单变更时间',
+    //   dataIndex: 'gmtModify',
+    //   render: text => {
+    //     const splitArray = text.split(' ');
+    //     return (
+    //       <div style={{ textAlign: 'center' }}>
+    //         <div>{splitArray[0]}</div>
+    //         <div>{splitArray[1]}</div>
+    //       </div>
+    //     );
+    //   },
+    // },
+    // {
+    //   title: '订单会员手机号',
+    //   dataIndex: 'memberPhone',
+    // },
     {
       title: '操作',
       fixed: 'right',
@@ -254,6 +254,10 @@ const OrderList = ({ dispatch, loading, orderList }) => {
         type: 'orderList/getOrderList',
       });
     },
+    // scroll: {
+    //   x: 1024,
+    //   y: 768,
+    // },
   };
 
   return (
