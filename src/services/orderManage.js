@@ -52,3 +52,14 @@ export async function replenish(params) {
     }
   );
 }
+
+export async function systemCancel(params) {
+  return request(
+    `${config.APIV1}/admin/orders/systemCancel?${stringify({
+      orderId: params.orderId,
+    })}`,
+    {
+      method: 'POST',
+    }
+  );
+}

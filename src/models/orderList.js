@@ -1,7 +1,13 @@
 import modelExtend from 'dva-model-extend';
 import moment from 'moment';
 import commonModel from './common';
-import { getOptionMapList, getOrderList, delivery, replenish } from '../services/orderManage';
+import {
+  getOptionMapList,
+  getOrderList,
+  delivery,
+  replenish,
+  systemCancel,
+} from '../services/orderManage';
 
 const { pageModel } = commonModel;
 
@@ -24,6 +30,7 @@ export default modelExtend(pageModel, {
     orderId: undefined,
     trackingNumber: undefined,
     orderNo: undefined,
+    showTrackingInfo: true,
   },
 
   subscriptions: {
@@ -107,7 +114,7 @@ export default modelExtend(pageModel, {
 
     *shipOrReplenish(_, { call, put, select }) {
       const { trackingNumber, orderId, type } = yield select(state => state.orderList);
-      if (!trackingNumber) {
+      if (type !== '系统取消' && !trackingNumber) {
         yield put({
           type: 'showNotice',
           payload: '请填写运单号',
@@ -121,10 +128,14 @@ export default modelExtend(pageModel, {
           orderId,
           trackingNumber,
         });
-      } else {
+      } else if (type === '补货') {
         response = yield call(replenish, {
           orderId,
           trackingNumber,
+        });
+      } else {
+        response = yield call(systemCancel, {
+          orderId,
         });
       }
 

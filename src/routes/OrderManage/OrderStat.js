@@ -65,6 +65,7 @@ const OrderStat = ({ dispatch, loading, orderStat }) => {
               本年: [moment().startOf('year'), moment().endOf('year')],
             }}
             onOk={onDaysRangeChange}
+            onChange={onDaysRangeChange}
           />
         </Col>
       </Row>

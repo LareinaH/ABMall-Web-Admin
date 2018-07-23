@@ -39,7 +39,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
     searchOrderId,
   } = orderList;
 
-  const { showEditorOrderModal, type, trackingNumber, orderNo } = orderList;
+  const { showEditorOrderModal, type, trackingNumber, orderNo, showTrackingInfo } = orderList;
 
   const { orderDetailListData } = orderList;
   const { current, pageSize, total } = orderList;
@@ -198,6 +198,14 @@ const OrderList = ({ dispatch, loading, orderList }) => {
                   {
                     key: 'trackingNumber',
                     value: undefined,
+                  },
+                  {
+                    key: 'showTrackingInfo',
+                    value: true,
+                  },
+                  {
+                    key: 'type',
+                    value: '发货',
                   },
                 ],
               });
@@ -421,6 +429,24 @@ const OrderList = ({ dispatch, loading, orderList }) => {
                   value: e.target.value,
                 },
               });
+
+              if (e.target.value === '系统取消') {
+                dispatch({
+                  type: 'orderList/setData',
+                  payload: {
+                    key: 'showTrackingInfo',
+                    value: false,
+                  },
+                });
+              } else {
+                dispatch({
+                  type: 'orderList/setData',
+                  payload: {
+                    key: 'showTrackingInfo',
+                    value: true,
+                  },
+                });
+              }
             }}
             value={type}
           >
@@ -429,12 +455,12 @@ const OrderList = ({ dispatch, loading, orderList }) => {
             <RadioButton value="系统取消">系统取消</RadioButton>
           </RadioGroup>
         </FormRow>
-        <FormRow label="物流公司" labelSpan={4} contentSpan={6}>
+        <FormRow visible={showTrackingInfo} label="物流公司" labelSpan={4} contentSpan={6}>
           <Select value="ems" style={{ width: 300 }}>
             <Select.Option value="ems">中国邮政</Select.Option>
           </Select>
         </FormRow>
-        <FormRow label="运单号" labelSpan={4} contentSpan={6}>
+        <FormRow visible={showTrackingInfo} label="运单号" labelSpan={4} contentSpan={6}>
           <Input
             placeholder="请输入运单号"
             style={{ width: 400 }}
