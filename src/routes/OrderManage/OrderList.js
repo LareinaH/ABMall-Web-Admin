@@ -176,6 +176,7 @@ const OrderList = ({ dispatch, loading, orderList }) => {
     },
     {
       title: '操作',
+      fixed: 'right',
       render: (text, record) => (
         <div>
           <a
