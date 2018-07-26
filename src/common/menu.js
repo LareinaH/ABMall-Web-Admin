@@ -53,6 +53,23 @@ const customMenuData = [
     ],
   },
   {
+    name: '云鼎商学院',
+    icon: 'cloud',
+    path: 'contentStudy',
+    children: [
+      {
+        name: '添加课程',
+        path: 'studyAdd',
+        icon: 'code',
+      },
+      {
+        name: '课程列表',
+        path: 'studyList',
+        icon: 'desktop',
+      },
+    ],
+  },
+  {
     name: '消息模板',
     icon: 'message',
     path: 'messageTemplate',

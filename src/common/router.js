@@ -133,6 +133,16 @@ export const getRouterData = app => {
         import('../routes/PlatformNotice/NoticeList')
       ),
     },
+    '/contentStudy/studyAdd': {
+      component: dynamicWrapper(app, ['studyAdd'], () =>
+        import('../routes/ContentStudy/StudyAddInstance')
+      ),
+    },
+    '/contentStudy/studyList': {
+      component: dynamicWrapper(app, ['studyList'], () =>
+        import('../routes/ContentStudy/StudyList')
+      ),
+    },
     '/activityManage/activityAdd': {
       component: dynamicWrapper(app, ['activityAdd', 'commodityAdd'], () =>
         import('../routes/ActivityManage/ActivityAddInstance')
