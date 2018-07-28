@@ -132,8 +132,8 @@ const customMenuData = [
         icon: 'user',
       },
       {
-        name: '会员排行',
-        path: 'memberStat',
+        name: '会员列表',
+        path: 'memberList',
         icon: 'idcard',
       },
     ],

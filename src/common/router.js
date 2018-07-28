@@ -153,6 +153,11 @@ export const getRouterData = app => {
         import('../routes/ActivityManage/ActivityList')
       ),
     },
+    '/reportStat/memberList': {
+      component: dynamicWrapper(app, ['memberList'], () =>
+        import('../routes/ReportStat/MemberList')
+      ),
+    },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },

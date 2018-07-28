@@ -1,4 +1,5 @@
 import modelExtend from 'dva-model-extend';
+import { getOptionMapList } from '../services/common';
 
 const model = {
   reducers: {
@@ -18,6 +19,21 @@ const pageModel = modelExtend(model, {
     current: 1,
     pageSize: 10,
     total: 0,
+  },
+
+  effects: {
+    *getOptionMapList({ payload }, { call, put }) {
+      const { enumType, key } = payload;
+      const response = yield call(getOptionMapList, enumType);
+      if (response.code === 200) {
+        yield put({
+          type: 'save',
+          payload: {
+            [key]: response.data,
+          },
+        });
+      }
+    },
   },
 
   reducers: {
