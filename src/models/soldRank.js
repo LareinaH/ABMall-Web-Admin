@@ -12,6 +12,8 @@ export default modelExtend(pageModel, {
     // 2个筛选条件
     gmtStart: moment().startOf('month'),
     gmtEnd: moment().endOf('month'),
+    order: undefined,
+    columnKey: undefined,
 
     // 表格数据
     soldRankDetailList: [],
@@ -27,6 +29,8 @@ export default modelExtend(pageModel, {
             payload: {
               gmtStart: moment().startOf('month'),
               gmtEnd: moment().endOf('month'),
+              order: undefined,
+              columnKey: undefined,
               current: 1,
               pageSize: 10,
             },
@@ -42,12 +46,16 @@ export default modelExtend(pageModel, {
 
   effects: {
     *getSoldRankDetailList(_, { call, put, select }) {
-      const { current, pageSize, gmtStart, gmtEnd } = yield select(state => state.soldRank);
+      const { current, pageSize, gmtStart, gmtEnd, order, columnKey } = yield select(
+        state => state.soldRank
+      );
       const response = yield call(getOrdersRanklList, {
         current,
         pageSize,
         gmtStart: gmtStart.format('YYYY-MM-DD'),
         gmtEnd: gmtEnd.format('YYYY-MM-DD'),
+        order,
+        columnKey,
       });
       if (response.code === 200) {
         yield put({

@@ -11,7 +11,7 @@ import { pagination } from '../../common/tablePageProps';
 const { RangePicker } = DatePicker;
 
 const SoldRank = ({ dispatch, loading, soldRank }) => {
-  const { gmtStart, gmtEnd, soldRankDetailList } = soldRank;
+  const { gmtStart, gmtEnd, soldRankDetailList, order, columnKey } = soldRank;
 
   const { current, pageSize, total } = soldRank;
 
@@ -50,10 +50,14 @@ const SoldRank = ({ dispatch, loading, soldRank }) => {
     {
       title: '订单数量',
       dataIndex: 'order_count',
+      sortOrder: columnKey === 'order_count' && order,
+      sorter: true,
     },
     {
       title: '总销售额',
       dataIndex: 'total_money',
+      sortOrder: columnKey === 'total_money' && order,
+      sorter: true,
     },
     {
       title: '返利总额',
@@ -73,12 +77,15 @@ const SoldRank = ({ dispatch, loading, soldRank }) => {
       pageSize,
       total,
     }),
-    onChange: pn => {
+    onChange: (pn, filters, sorter) => {
+      const { order: od, columnKey: ck } = sorter;
       dispatch({
         type: 'soldRank/save',
         payload: {
           current: pn.current,
           pageSize: pn.pageSize,
+          order: od,
+          columnKey: ck,
         },
       });
 

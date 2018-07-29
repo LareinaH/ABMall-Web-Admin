@@ -28,18 +28,18 @@ export async function getSoldRankDetailList(params) {
 }
 
 export async function getOrdersRanklList(params) {
-  const { gmtStart, gmtEnd } = params;
+  const { gmtStart, gmtEnd, order, columnKey } = params;
   return request(
     `${config.APIV1}/admin/stat/ordersRank?${stringify({
       pageNum: params.current,
       pageSize: params.pageSize,
+      gmtStart,
+      gmtEnd,
+      sortKey: columnKey,
+      sortOrder: order === 'ascend' ? 'asc' : 'desc',
     })}`,
     {
-      method: 'POST',
-      body: {
-        gmtStart,
-        gmtEnd,
-      },
+      method: 'GET',
     }
   );
 }
