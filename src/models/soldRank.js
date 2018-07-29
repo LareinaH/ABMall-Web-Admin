@@ -12,8 +12,8 @@ export default modelExtend(pageModel, {
     // 2个筛选条件
     gmtStart: moment().startOf('month'),
     gmtEnd: moment().endOf('month'),
-    order: undefined,
-    columnKey: undefined,
+    order: 'descend',
+    columnKey: 'order_count',
 
     // 表格数据
     soldRankDetailList: [],
@@ -29,8 +29,8 @@ export default modelExtend(pageModel, {
             payload: {
               gmtStart: moment().startOf('month'),
               gmtEnd: moment().endOf('month'),
-              order: undefined,
-              columnKey: undefined,
+              order: 'descend',
+              columnKey: 'order_count',
               current: 1,
               pageSize: 10,
             },
