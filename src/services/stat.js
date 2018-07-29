@@ -26,3 +26,20 @@ export async function getSoldRankDetailList(params) {
     }
   );
 }
+
+export async function getOrdersRanklList(params) {
+  const { gmtStart, gmtEnd } = params;
+  return request(
+    `${config.APIV1}/admin/stat/ordersRank?${stringify({
+      pageNum: params.current,
+      pageSize: params.pageSize,
+    })}`,
+    {
+      method: 'POST',
+      body: {
+        gmtStart,
+        gmtEnd,
+      },
+    }
+  );
+}

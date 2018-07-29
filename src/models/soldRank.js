@@ -1,7 +1,7 @@
 import modelExtend from 'dva-model-extend';
 import moment from 'moment';
 import commonModel from './common';
-import { getSoldRankDetailList } from '../services/stat';
+import { getOrdersRanklList } from '../services/stat';
 
 const { pageModel } = commonModel;
 
@@ -32,9 +32,9 @@ export default modelExtend(pageModel, {
             },
           });
 
-          // dispatch({
-          //   type: 'getSoldRankDetailList',
-          // });
+          dispatch({
+            type: 'getSoldRankDetailList',
+          });
         }
       });
     },
@@ -43,7 +43,7 @@ export default modelExtend(pageModel, {
   effects: {
     *getSoldRankDetailList(_, { call, put, select }) {
       const { current, pageSize, gmtStart, gmtEnd } = yield select(state => state.soldRank);
-      const response = yield call(getSoldRankDetailList, {
+      const response = yield call(getOrdersRanklList, {
         current,
         pageSize,
         gmtStart: gmtStart.format('YYYY-MM-DD'),

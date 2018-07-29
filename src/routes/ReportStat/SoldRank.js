@@ -32,40 +32,32 @@ const SoldRank = ({ dispatch, loading, soldRank }) => {
 
   const columns = [
     {
-      title: '排行',
-      dataIndex: 'rankingId',
-    },
-    {
       title: '商品名称',
-      dataIndex: 'name',
+      dataIndex: 'good_name',
     },
     {
       title: '商品编号',
-      dataIndex: 'gmtCreate',
+      dataIndex: 'goods_specification_no',
     },
     {
       title: '销售价格',
-      dataIndex: 'gmtCreate',
-    },
-    {
-      title: '分类',
-      dataIndex: 'gmtCreate',
+      dataIndex: 'good_price',
     },
     {
       title: '规格',
-      dataIndex: 'gmtCreate',
+      dataIndex: 'goods_specification_name',
     },
     {
       title: '订单数量',
-      dataIndex: 'referrerName',
+      dataIndex: 'order_count',
     },
     {
       title: '总销售额',
-      dataIndex: 'referrerName',
+      dataIndex: 'total_money',
     },
     {
       title: '返利总额',
-      dataIndex: 'phoneNum',
+      dataIndex: 'rebate_money',
     },
   ];
 
