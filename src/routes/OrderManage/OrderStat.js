@@ -64,7 +64,6 @@ const OrderStat = ({ dispatch, loading, orderStat }) => {
               本季度: [moment().startOf('quarter'), moment().endOf('quarter')],
               本年: [moment().startOf('year'), moment().endOf('year')],
             }}
-            onOk={onDaysRangeChange}
             onChange={onDaysRangeChange}
           />
         </Col>
@@ -91,12 +90,13 @@ const OrderStat = ({ dispatch, loading, orderStat }) => {
                 position="percent"
                 color="orderStatus"
                 tooltip={[
-                  'orderStatus*percent',
-                  (orderStatus, percent) => {
+                  'orderStatus*sum*percent',
+                  (orderStatus, typeSum, percent) => {
                     return {
-                      title: `共计${sum * percent}`,
-                      name: orderStatus,
-                      value: `${Number.parseFloat(percent).toFixed(2) * 100}%`,
+                      // title: `共计${Number.parseFloat(sum * percent).toFixed(0)}`,
+                      name: `${orderStatus}订单占比`,
+                      value: `${(Number.parseFloat(percent) * 100).toFixed(2)}%`,
+                      title: `订单数量:${typeSum}`,
                     };
                   },
                 ]}

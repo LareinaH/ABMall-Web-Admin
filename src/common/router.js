@@ -153,10 +153,19 @@ export const getRouterData = app => {
         import('../routes/ActivityManage/ActivityList')
       ),
     },
+    '/reportStat/soldStat': {
+      component: dynamicWrapper(app, ['soldStat'], () => import('../routes/ReportStat/SoldStat')),
+    },
     '/reportStat/memberList': {
       component: dynamicWrapper(app, ['memberList'], () =>
         import('../routes/ReportStat/MemberList')
       ),
+    },
+    '/reportStat/userStat': {
+      component: dynamicWrapper(app, ['userStat'], () => import('../routes/ReportStat/UserStat')),
+    },
+    '/reportStat/soldRank': {
+      component: dynamicWrapper(app, ['soldRank'], () => import('../routes/ReportStat/SoldRank')),
     },
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),

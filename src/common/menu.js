@@ -117,11 +117,6 @@ const customMenuData = [
         icon: 'dot-chart',
       },
       {
-        name: '销售明细',
-        path: 'soldDetails',
-        icon: 'bar-chart',
-      },
-      {
         name: '销售排行',
         path: 'soldRank',
         icon: 'trophy',

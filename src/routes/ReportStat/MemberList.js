@@ -76,12 +76,10 @@ const MemberList = ({ dispatch, loading, memberList }) => {
     {
       title: '引荐人昵称',
       dataIndex: 'referrerName',
-      fixed: 'left',
       width: 150,
     },
     {
       title: '会员级别',
-      fixed: 'left',
       width: 100,
       render: (text, record) => {
         return memberLevelList
@@ -93,7 +91,6 @@ const MemberList = ({ dispatch, loading, memberList }) => {
     {
       title: '手机号',
       dataIndex: 'phoneNum',
-      fixed: 'left',
       width: 125,
     },
     {
@@ -133,12 +130,12 @@ const MemberList = ({ dispatch, loading, memberList }) => {
     },
     {
       title: '直推人数',
-      dataIndex: 'referTotalCount',
+      dataIndex: 'referTotalAgentCount',
       width: 150,
     },
     {
       title: '名下团队人数',
-      dataIndex: 'referTotalAgentCount',
+      dataIndex: 'referTotalCount',
       width: 150,
     },
     {
@@ -201,7 +198,6 @@ const MemberList = ({ dispatch, loading, memberList }) => {
             本季度: [moment().startOf('quarter'), moment().endOf('quarter')],
             本年: [moment().startOf('year'), moment().endOf('year')],
           }}
-          onOk={onDaysRangeChange}
           onChange={onDaysRangeChange}
           style={{ width: 300 }}
         />
@@ -247,7 +243,7 @@ const MemberList = ({ dispatch, loading, memberList }) => {
           }}
         />
       </FormRow>
-      <FormRow label="联系电话" labelSpan={2} contentSpan={8}>
+      <FormRow label="联系电话" labelSpan={2} contentSpan={16}>
         <div>
           <Search
             placeholder="按联系电话查询"
