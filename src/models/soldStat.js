@@ -1,7 +1,8 @@
 import modelExtend from 'dva-model-extend';
 import moment from 'moment';
 import commonModel from './common';
-import { getSoldRankDetailList } from '../services/stat';
+import { getSalesMoneyStat, getSalesMoneyTrend, getYearStat } from '../services/stat';
+import { getNumberRange } from '../utils/utils';
 
 const { pageModel } = commonModel;
 
@@ -10,11 +11,17 @@ export default modelExtend(pageModel, {
 
   state: {
     // 2个筛选条件
-    gmtStart: moment().startOf('month'),
-    gmtEnd: moment().endOf('month'),
+    gmtStart: moment().subtract(30, 'days'),
+    gmtEnd: moment(),
 
     // 表格数据
     soldStatDetailList: [],
+    statInfo: {},
+    salesMoneyTrend: [],
+    year: moment()
+      .year()
+      .toString(),
+    yearList: getNumberRange(moment().year() - 10, moment().year() + 10, true),
   },
 
   subscriptions: {
@@ -27,25 +34,47 @@ export default modelExtend(pageModel, {
             payload: {
               gmtStart: moment().startOf('month'),
               gmtEnd: moment().endOf('month'),
-              current: 1,
-              pageSize: 10,
+              soldStatDetailList: [],
+              statInfo: {},
+              salesMoneyTrend: [],
+              year: moment()
+                .year()
+                .toString(),
+              yearList: getNumberRange(moment().year() - 10, moment().year() + 10, true),
             },
           });
 
-          // dispatch({
-          //   type: 'getSoldRankDetailList',
-          // });
+          dispatch({
+            type: 'getSalesMoneyStat',
+          });
+
+          dispatch({
+            type: 'getSalesMoneyTrend',
+          });
+
+          dispatch({
+            type: 'getYearStat',
+          });
         }
       });
     },
   },
 
   effects: {
-    *getSoldRankDetailList(_, { call, put, select }) {
-      const { current, pageSize, gmtStart, gmtEnd } = yield select(state => state.soldStat);
-      const response = yield call(getSoldRankDetailList, {
-        current,
-        pageSize,
+    *getSalesMoneyStat(_, { call, put }) {
+      const response = yield call(getSalesMoneyStat);
+      if (response.code === 200) {
+        yield put({
+          type: 'save',
+          payload: {
+            statInfo: response.data,
+          },
+        });
+      }
+    },
+    *getSalesMoneyTrend(_, { select, call, put }) {
+      const { gmtEnd, gmtStart } = yield select(state => state.soldStat);
+      const response = yield call(getSalesMoneyTrend, {
         gmtStart: gmtStart.format('YYYY-MM-DD'),
         gmtEnd: gmtEnd.format('YYYY-MM-DD'),
       });
@@ -53,8 +82,21 @@ export default modelExtend(pageModel, {
         yield put({
           type: 'save',
           payload: {
-            soldStatDetailList: response.data.list,
-            total: response.data.total,
+            salesMoneyTrend: response.data,
+          },
+        });
+      }
+    },
+    *getYearStat(_, { select, call, put }) {
+      const { year } = yield select(state => state.soldStat);
+      const response = yield call(getYearStat, {
+        year,
+      });
+      if (response.code === 200) {
+        yield put({
+          type: 'save',
+          payload: {
+            soldStatDetailList: response.data,
           },
         });
       }

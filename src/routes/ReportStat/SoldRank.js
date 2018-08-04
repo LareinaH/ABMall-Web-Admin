@@ -97,7 +97,7 @@ const SoldRank = ({ dispatch, loading, soldRank }) => {
 
   return (
     <Card>
-      <FormRow label="时间段" labelSpan={2} contentSpan={8}>
+      <FormRow label="时间段" labelSpan={1} contentSpan={8}>
         <RangePicker
           format="YYYY-MM-DD"
           placeholder={['开始时间', '结束时间']}

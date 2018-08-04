@@ -43,3 +43,15 @@ export async function getOrdersRanklList(params) {
     }
   );
 }
+
+export async function getSalesMoneyStat() {
+  return request(`${config.APIV1}/admin/stat/getSalesMoneyStat`);
+}
+
+export async function getSalesMoneyTrend(params) {
+  return request(`${config.APIV1}/admin/stat/getSalesMoneyTrend?${stringify(params)}`);
+}
+
+export async function getYearStat(params) {
+  return request(`${config.APIV1}/admin/stat/getYearStat?${stringify(params)}`);
+}

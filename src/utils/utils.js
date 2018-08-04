@@ -199,3 +199,10 @@ export function getRandomAlphabet() {
   const idx = Math.floor(Math.random() * Math.floor(26));
   return alphabet[idx];
 }
+
+export function getNumberRange(start, end, toString) {
+  return Array(end - start + 1)
+    .fill(0)
+    .map((v, i) => i + start)
+    .map(x => (toString ? x.toString() : x));
+}
