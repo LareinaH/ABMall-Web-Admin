@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 import numeral from 'numeral';
+import { stringify } from 'qs';
 import { connect } from 'dva';
-import { Card, Row, Col, DatePicker, Table, Tooltip, Icon, Select } from 'antd';
+import { Card, Row, Col, DatePicker, Table, Tooltip, Icon, Select, Button } from 'antd';
 import { Chart, Geom, Axis, Tooltip as BcTooltip } from 'bizcharts';
 import { ChartCard } from 'components/Charts';
 import Trend from 'components/Trend';
@@ -13,6 +14,10 @@ import LoadingSpin from '../../components/MyComponent/LoadingSpin';
 import { addAlignForColumns } from '../../utils/utils';
 import { Yuan, colResponsivePropsFor4Columns } from '../../common/tablePageProps';
 import styles from '../Dashboard/Analysis.less';
+
+import config from '../../utils/config';
+
+const { APIV1 } = config;
 
 const { RangePicker } = DatePicker;
 
@@ -249,6 +254,23 @@ const SoldStat = ({ dispatch, loading, soldStat }) => {
           >
             {yearList.map(item => <Select.Option key={item}>{`${item}年`}</Select.Option>)}
           </Select>
+          <Button
+            type="primary"
+            style={{ marginLeft: 8 }}
+            icon="export"
+            onClick={() => {
+              const url = `${APIV1}/admin/exportSales?${stringify({
+                year,
+              })}`;
+              const aElem = document.createElement('a');
+              aElem.href = url;
+              const evt = document.createEvent('MouseEvents');
+              evt.initEvent('click', true, true);
+              aElem.dispatchEvent(evt);
+            }}
+          >
+            导出销售额列表
+          </Button>
         </FormRow>
         <Row>
           <Col span={24}>
