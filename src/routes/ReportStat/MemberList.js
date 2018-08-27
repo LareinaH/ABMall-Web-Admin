@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { stringify } from 'qs';
 import { connect } from 'dva';
 import { Card, Row, Col, DatePicker, Select, Input, Button, Table } from 'antd';
 import NoticeModal from '../NoticeModal';
@@ -7,9 +8,12 @@ import FormRow from '../../components/MyComponent/FormRow';
 
 import { addAlignForColumns } from '../../utils/utils';
 import { pagination } from '../../common/tablePageProps';
+import config from '../../utils/config';
 
 const { RangePicker } = DatePicker;
 const { Search } = Input;
+
+const { APIV1 } = config;
 
 const MemberList = ({ dispatch, loading, memberList }) => {
   const { name, phoneNum, level, gmtStart, gmtEnd, memberLevelList, memberDetailList } = memberList;
@@ -296,6 +300,29 @@ const MemberList = ({ dispatch, loading, memberList }) => {
             }}
           >
             重置查询条件
+          </Button>
+          <Button
+            type="primary"
+            style={{ marginLeft: 8 }}
+            icon="export"
+            onClick={() => {
+              const url = `${APIV1}/admin/exportUsers?${stringify({
+                gmtStart: gmtStart.format('YYYY-MM-DD'),
+                gmtEnd: gmtEnd.format('YYYY-MM-DD'),
+                phoneNum,
+                name,
+                level,
+                pageSize: 999999,
+                pageNum: 1,
+              })}`;
+              const aElem = document.createElement('a');
+              aElem.href = url;
+              const evt = document.createEvent('MouseEvents');
+              evt.initEvent('click', true, true);
+              aElem.dispatchEvent(evt);
+            }}
+          >
+            导出用户列表
           </Button>
         </div>
       </FormRow>
